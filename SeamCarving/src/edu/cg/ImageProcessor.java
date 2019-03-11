@@ -91,7 +91,18 @@ public class ImageProcessor extends FunctioalForEachLoops {
 
 	public BufferedImage greyscale() {
 		// TODO: Implement this method, remove the exception.
-		throw new UnimplementedMethodException("greyscale");
+		BufferedImage greyedImage = newEmptyInputSizedImage();//new BufferedImage(outWidth,outWidth, workingImageType);
+		forEach((y,x)->{
+				Color color = new Color(workingImage.getRGB(x,y));
+				int  red   = color.getRed();
+				int  green = color.getGreen();
+				int  blue  =  color.getBlue();
+
+				int grey = (red * rgbWeights.redWeight + green * rgbWeights.greenWeight + blue * rgbWeights.blueWeight) / (rgbWeights.redWeight + rgbWeights.greenWeight + rgbWeights.blueWeight);
+				grey = new Color(grey,grey,grey).getRGB();
+				greyedImage.setRGB(x, y, grey);
+		});
+		return greyedImage;
 	}
 
 	public BufferedImage nearestNeighbor() {
