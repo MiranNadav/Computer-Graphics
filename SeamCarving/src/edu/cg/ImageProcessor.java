@@ -90,15 +90,15 @@ public class ImageProcessor extends FunctioalForEachLoops {
 	}
 
 	public BufferedImage greyscale() {
-		// TODO: Implement this method, remove the exception.
-		BufferedImage greyedImage = newEmptyInputSizedImage();//new BufferedImage(outWidth,outWidth, workingImageType);
+		BufferedImage greyedImage = newEmptyInputSizedImage();
 		forEach((y,x)->{
 				Color color = new Color(workingImage.getRGB(x,y));
 				int  red   = color.getRed();
 				int  green = color.getGreen();
 				int  blue  =  color.getBlue();
 
-				int grey = (red * rgbWeights.redWeight + green * rgbWeights.greenWeight + blue * rgbWeights.blueWeight) / (rgbWeights.redWeight + rgbWeights.greenWeight + rgbWeights.blueWeight);
+				int grey = (red * rgbWeights.redWeight + green * rgbWeights.greenWeight + blue * rgbWeights.blueWeight)
+						/ (rgbWeights.redWeight + rgbWeights.greenWeight + rgbWeights.blueWeight);
 				grey = new Color(grey,grey,grey).getRGB();
 				greyedImage.setRGB(x, y, grey);
 		});
@@ -106,7 +106,15 @@ public class ImageProcessor extends FunctioalForEachLoops {
 	}
 
 	public BufferedImage nearestNeighbor() {
-		// TODO: Implement this method, remove the exception.
-		throw new UnimplementedMethodException("nearestNeighbor");
+		BufferedImage nearestNeighbor = newEmptyOutputSizedImage();
+		setForEachOutputParameters();
+		double x_ratio = (double)inWidth / (double)outWidth;
+		double y_ratio = (double)inHeight / (double)outHeight;
+		forEach((y,x)->{
+			double px = Math.floor(x_ratio*x);
+			double py = Math.floor(y_ratio*y);
+			nearestNeighbor.setRGB(x,y,workingImage.getRGB((int)px,(int)py));
+		});
+		return nearestNeighbor;
 	}
 }
