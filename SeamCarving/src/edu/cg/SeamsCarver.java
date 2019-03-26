@@ -18,13 +18,12 @@ public class SeamsCarver extends ImageProcessor {
     private double[][] costMatrix;
     private double[][] energyMatrix;
     private int[][] offsetMatrix;
-    private boolean[][] maskAfterSeamCarving;
-    int[][] allSeamsList;
+    private int[][] allSeamsList;
     private BufferedImage greyedImage;
     private BufferedImage gradientMagnitudeImage;
-    int currentImageWidth;
-    int currentImageHeight;
-    int[] minimalSeam;
+    private int currentImageWidth;
+    private int currentImageHeight;
+    private int[] minimalSeam;
 
     public SeamsCarver(Logger logger, BufferedImage workingImage, int outWidth, RGBWeights rgbWeights,
                        boolean[][] imageMask) {
