@@ -5,322 +5,299 @@ import java.awt.image.BufferedImage;
 
 public class SeamsCarver extends ImageProcessor {
 
-	// MARK: An inner interface for functional programming.
-	@FunctionalInterface
-	interface ResizeOperation {
-		BufferedImage resize();
-	}
+    // MARK: An inner interface for functional programming.
+    @FunctionalInterface
+    interface ResizeOperation {
+        BufferedImage resize();
+    }
 
-	// MARK: Fields
-	private int numOfSeams;
-	private ResizeOperation resizeOp;
-	boolean[][] imageMask;
-	// TODO: Add some additional fields
-	private double[][] costMatrix;
-	private double[][] energyMatrix;
-	private int[][] offsetMatrix;
-	private boolean[][] maskAfterSeamCarving;
-	int[][] allSeams;
-	private BufferedImage greyedImage;
-	private BufferedImage gradientMagnitudeImage;
-	int tempImageWidth;
-	int tempImageHeight;
-	int[] minimalSeam;
+    // MARK: Fields
+    private int numOfSeams;
+    private ResizeOperation resizeOp;
+    boolean[][] imageMask;
+    private double[][] costMatrix;
+    private double[][] energyMatrix;
+    private int[][] offsetMatrix;
+    private boolean[][] maskAfterSeamCarving;
+    int[][] allSeamsList;
+    private BufferedImage greyedImage;
+    private BufferedImage gradientMagnitudeImage;
+    int currentImageWidth;
+    int currentImageHeight;
+    int[] minimalSeam;
 
-	public SeamsCarver(Logger logger, BufferedImage workingImage, int outWidth, RGBWeights rgbWeights,
-			boolean[][] imageMask) {
-		super((s) -> logger.log("Seam carving: " + s), workingImage, rgbWeights, outWidth, workingImage.getHeight());
-		numOfSeams = Math.abs(outWidth - inWidth);
-		this.imageMask = imageMask;
-		if (inWidth < 2 | inHeight < 2)
-			throw new RuntimeException("Can not apply seam carving: workingImage is too small");
+    public SeamsCarver(Logger logger, BufferedImage workingImage, int outWidth, RGBWeights rgbWeights,
+                       boolean[][] imageMask) {
+        super((s) -> logger.log("Seam carving: " + s), workingImage, rgbWeights, outWidth, workingImage.getHeight());
+        numOfSeams = Math.abs(outWidth - inWidth);
+        this.imageMask = imageMask;
+        if (inWidth < 2 | inHeight < 2)
+            throw new RuntimeException("Can not apply seam carving: workingImage is too small");
 
-		if (numOfSeams > inWidth / 2)
-			throw new RuntimeException("Can not apply seam carving: too many seams...");
+        if (numOfSeams > inWidth / 2)
+            throw new RuntimeException("Can not apply seam carving: too many seams...");
 
-		// Setting resizeOp by with the appropriate method reference
-		if (outWidth > inWidth)
-			resizeOp = this::increaseImageWidth;
-		else if (outWidth < inWidth)
-			resizeOp = this::reduceImageWidth;
-		else
-			resizeOp = this::duplicateWorkingImage;
+        // Setting resizeOp by with the appropriate method reference
+        if (outWidth > inWidth)
+            resizeOp = this::increaseImageWidth;
+        else if (outWidth < inWidth)
+            resizeOp = this::reduceImageWidth;
+        else
+            resizeOp = this::duplicateWorkingImage;
 
-		// TODO: You may initialize your additional fields and apply some preliminary
-		// calculations.
+        // TODO: You may initialize your additional fields and apply some preliminary
+        // calculations.
 
-		allSeams = new int[numOfSeams][inHeight];
-		tempImageWidth = inWidth;
-		tempImageHeight = inHeight;
-		minimalSeam = new int[inHeight];
-		costMatrix = new double[inWidth][inHeight];
+        allSeamsList = new int[numOfSeams][inHeight];
+        currentImageWidth = inWidth;
+        currentImageHeight = inHeight;
+        minimalSeam = new int[inHeight];
+        costMatrix = new double[inWidth][inHeight];
 //		energyMatrix = new double[inWidth][inHeight];
-		greyedImage = greyscale();
-		gradientMagnitudeImage = calcMagnitude();
-		energyMatrix = setEnergyMatrix();
-		offsetMatrix = new int [inWidth][inHeight];
+        greyedImage = greyscale();
+        gradientMagnitudeImage = calcMagnitude();
+        energyMatrix = setEnergyMatrix();
+        offsetMatrix = new int[inWidth][inHeight];
 
-		setOffsetMatrix();
-		calcCostMatrix();
-		findKSeams();
+        setOffsetMatrix();
+        calculateCostMatrix();
+        findKSeams();
 
-		this.logger.log("preliminary calculations were ended.");
-	}
+        this.logger.log("preliminary calculations were ended.");
+    }
 
-	private double[][] setEnergyMatrix() {
-		setForEachWidth(tempImageWidth);
-		setForEachHeight(tempImageHeight);
-		double[][] resultMatrix = new double[tempImageWidth][tempImageHeight];
-		forEach((y,x) -> {
-			resultMatrix[x][y] = (new Color(gradientMagnitudeImage.getRGB(x,y)).getRed());
-		});
+    private double[][] setEnergyMatrix() {
+        setForEachWidth(currentImageWidth);
+        setForEachHeight(currentImageHeight);
+        double[][] resultMatrix = new double[currentImageWidth][currentImageHeight];
+        forEach((y, x) -> {
+            resultMatrix[x][y] = (new Color(gradientMagnitudeImage.getRGB(x, y)).getRed());
+        });
 
-		return resultMatrix;
-	}
+        return resultMatrix;
+    }
 
-	public BufferedImage resize() {
-		return resizeOp.resize();
-	}
+    public BufferedImage resize() {
+        return resizeOp.resize();
+    }
 
-	private BufferedImage reduceImageWidth() {
-		// 1. Create a matrix M (same size of pic)
-		// 2. Calc gradient magnitude for each pixel
-		// 3. Calc with dynamic programming the new formula (minimum of top 3 pixels)
-		// 4. Backtrack
-		// 5. Remove the Seam
-		// 6. recalculate matrix M (neighbors of the removed pixels)
+    private BufferedImage reduceImageWidth() {
+        // 1. Create a matrix M (same size of pic)
+        // 2. Calc gradient magnitude for each pixel
+        // 3. Calc with dynamic programming the new formula (minimum of top 3 pixels)
+        // 4. Backtrack
+        // 5. Remove the Seam
+        // 6. recalculate matrix M (neighbors of the removed pixels)
 
-		boolean[][] filter = new boolean[inWidth][inHeight];
-		BufferedImage ans = newEmptyImage(tempImageWidth, tempImageHeight);
-		markPixelsToRemove(filter);
-		for (int i = 0; i < tempImageHeight; i++){
-			int col = 0;
-			for (int j = 0; j < tempImageWidth; j++){
-				while (col < inWidth && filter[col][i]) {
-					col++;
-				}
-				ans.setRGB(j, i, workingImage.getRGB(col, i));
-				col++;
-			}
-		}
+        boolean[][] filter = new boolean[inWidth][inHeight];
+        BufferedImage ans = newEmptyImage(currentImageWidth, currentImageHeight);
+        markPixels(filter);
+        for (int i = 0; i < currentImageHeight; i++) {
+            int col = 0;
+            for (int j = 0; j < currentImageWidth; j++) {
+                while (col < inWidth && filter[col][i]) {
+                    col++;
+                }
+                ans.setRGB(j, i, workingImage.getRGB(col, i));
+                col++;
+            }
+        }
 //		this.popForEachParameters();
 //		setMaskAfterWidthReduce();
-		return ans;
-	}
+        return ans;
+    }
 
-	private void markPixelsToRemove(boolean[][] filter){
-		for (int i = 0; i < allSeams.length; i++){
-			for (int j = 0; j < allSeams[0].length; j++){
-				filter[allSeams[i][j]][j] = true;
-			}
-		}
-	}
-	private BufferedImage calcMagnitude(){
-//		greyedImage = greyscale();
-		BufferedImage tempImage = newEmptyImage(tempImageWidth, tempImageHeight);
-		setForEachWidth(tempImageWidth);
-		setForEachHeight(tempImageHeight);
-		forEach((y,x) ->{
-			int dx, dy;
-			Color c = new Color(greyedImage.getRGB(x,y));
-			Color cx = new Color(greyedImage.getRGB(x < tempImageWidth - 1? x + 1 : x - 1,y));
-			Color cy = new Color(greyedImage.getRGB(x ,y < tempImageHeight - 1 ? y + 1 : y - 1));
+    private void markPixels(boolean[][] filter) {
+        for (int i = 0; i < allSeamsList.length; i++) {
+            for (int j = 0; j < allSeamsList[0].length; j++) {
+                filter[allSeamsList[i][j]][j] = true;
+            }
+        }
+    }
 
-			dx = cx.getRed() - c.getRed();
-			dy = cy.getRed() - c.getRed();
-			int grad = (int) Math.sqrt((Math.pow(dx,2) + Math.pow(dy,2))/2);
-			Color gradColor = new Color(grad, grad, grad);
-			tempImage.setRGB(x,y, gradColor.getRGB());
-		});
-		System.out.println();
-		return tempImage;
+    private BufferedImage calcMagnitude() {
+        BufferedImage tempImage = newEmptyImage(currentImageWidth, currentImageHeight);
+        setForEachWidth(currentImageWidth);
+        setForEachHeight(currentImageHeight);
+        forEach((y, x) -> {
+            int dx, dy;
+            Color c = new Color(greyedImage.getRGB(x, y));
+            Color cx = new Color(greyedImage.getRGB(x < currentImageWidth - 1 ? x + 1 : x - 1, y));
+            Color cy = new Color(greyedImage.getRGB(x, y < currentImageHeight - 1 ? y + 1 : y - 1));
 
-	}
+            dx = cx.getRed() - c.getRed();
+            dy = cy.getRed() - c.getRed();
+            int grad = (int) Math.sqrt((Math.pow(dx, 2) + Math.pow(dy, 2)) / 2);
+            Color gradColor = new Color(grad, grad, grad);
+            tempImage.setRGB(x, y, gradColor.getRGB());
+        });
 
-	private void setOffsetMatrix(){
-		for (int i = 0; i < inWidth; i++){
-			for (int j = 0; j < inHeight; j++){
-				offsetMatrix[i][j] = i;
-			}
-		}
-	}
+        return tempImage;
+    }
 
-	private void calcCostMatrix(){
-		costMatrix = new double[tempImageWidth][tempImageHeight];
-		setForEachHeight(tempImageHeight);
-		setForEachWidth(tempImageWidth);
+    private void setOffsetMatrix() {
+        for (int i = 0; i < inWidth; i++) {
+            for (int j = 0; j < inHeight; j++) {
+                offsetMatrix[i][j] = i;
+            }
+        }
+    }
 
-		forEach((y, x) -> {
-			if (y == 0) { //first row cost matrix value are the pixel's energy.
-				costMatrix[x][y] = energyMatrix[x][y];
-			}
-			else {
-				if (x == 0){ //when calculating cost matrix at left most edge
-					long cV = Math.abs(new Color(greyedImage.getRGB(x + 1,y)).getRed() - 0);
-					long cR = cV + Math.abs(new Color(greyedImage.getRGB(x,y-1)).getRed() - new Color(greyedImage.getRGB(x + 1,y)).getRed());
+    private void calculateCostMatrix() {
+        costMatrix = new double[currentImageWidth][currentImageHeight];
+        setForEachHeight(currentImageHeight);
+        setForEachWidth(currentImageWidth);
 
-					costMatrix[x][y] = energyMatrix[x][y] + Math.min(costMatrix[x][y-1] + cV , costMatrix[x+1][y-1] + cR);
+        forEach((y, x) -> {
+            double CR, CV, CL;
+            if (y == 0) { //first row cost matrix value are the pixel's energy.
+                costMatrix[x][y] = energyMatrix[x][y];
+            } else {
+                //Calculation for cost matrix, taking care of special cases - left edge, right edge, or regular calculation.
+                if (x == 0) {
+                    CV = Math.abs(new Color(greyedImage.getRGB(x + 1, y)).getRed() - 0);
+                    CR = CV + Math.abs(new Color(greyedImage.getRGB(x, y - 1)).getRed() - new Color(greyedImage.getRGB(x + 1, y)).getRed());
+                    costMatrix[x][y] = energyMatrix[x][y] + Math.min(costMatrix[x][y - 1] + CV, costMatrix[x + 1][y - 1] + CR);
 
-				} else if (x == tempImageWidth - 1) { //when calculating cost matrix at right most edge
-					long cV = Math.abs(0 - new Color(greyedImage.getRGB(x -1 ,y)).getRed());
-					long cL = cV + Math.abs(new Color(greyedImage.getRGB(x,y-1)).getRed() - new Color(greyedImage.getRGB(x - 1,y)).getRed());
+                } else if (x == currentImageWidth - 1) {
+                    CV = Math.abs(0 - new Color(greyedImage.getRGB(x - 1, y)).getRed());
+                    CL = CV + Math.abs(new Color(greyedImage.getRGB(x, y - 1)).getRed() - new Color(greyedImage.getRGB(x - 1, y)).getRed());
+                    costMatrix[x][y] = energyMatrix[x][y] + Math.min(costMatrix[x][y - 1] + CV, costMatrix[x - 1][y - 1] + CL);
+                } else {
+                    CV = Math.abs(new Color(greyedImage.getRGB(x + 1, y)).getRed() - new Color(greyedImage.getRGB(x - 1, y)).getRed());
+                    CL = CV + Math.abs(new Color(greyedImage.getRGB(x, y - 1)).getRed() - new Color(greyedImage.getRGB(x - 1, y)).getRed());
+                    CR = CV + Math.abs(new Color(greyedImage.getRGB(x, y - 1)).getRed() - new Color(greyedImage.getRGB(x + 1, y)).getRed());
+                    costMatrix[x][y] = energyMatrix[x][y] + Math.min(costMatrix[x][y - 1] + CV, Math.min(costMatrix[x - 1][y - 1] + CL, costMatrix[x + 1][y - 1] + CR));
+                }
 
-					costMatrix[x][y] = energyMatrix[x][y] + Math.min(costMatrix[x][y-1] + cV , costMatrix[x-1][y-1] + cL);
-				} else {
-					long cV = Math.abs(new Color(greyedImage.getRGB(x + 1,y)).getRed() - new Color(greyedImage.getRGB(x -1 ,y)).getRed());
-					long cL = cV + Math.abs(new Color(greyedImage.getRGB(x,y-1)).getRed() - new Color(greyedImage.getRGB(x - 1,y)).getRed());
-					long cR = cV + Math.abs(new Color(greyedImage.getRGB(x,y-1)).getRed() - new Color(greyedImage.getRGB(x + 1,y)).getRed());
+                //checking mask matrix.
+                if (imageMask[y][x]) {
+                    costMatrix[x][y] = Double.MAX_VALUE;
+                }
 
-					costMatrix[x][y] = energyMatrix[x][y] + Math.min(costMatrix[x][y-1] + cV , Math.min(costMatrix[x-1][y-1] + cL , costMatrix[x+1][y-1] + cR));
-				}
+            }
+        });
+    }
 
-				if (imageMask[y][x]){
-					costMatrix[x][y] = Double.MAX_VALUE;
-				}
+    private void findKSeams() {
+        for (int i = 0; i < numOfSeams; i++) {
+            findMinimalSeam(currentImageHeight - 1, 0, currentImageWidth - 1);
+            addSeam(i);
+            removeMinimalSeam();
+            updateOffsetMatrix();
 
-			}
-		});
-	}
+            //setting up new energy matrix
+            energyMatrix = setEnergyMatrix();
+            //calculating new offset matrix
+            calculateCostMatrix();
+        }
+    }
 
-	private void findKSeams(){
-		for(int i = 0; i < numOfSeams; i++){
-			findMinSeam(tempImageHeight - 1, 0, tempImageWidth -1);
-			addSeam(i);
-			removeMinSeam();
-			updateOffsetMatrix();
+    private void findMinimalSeam(int row, int minimumCol, int maximumCol) {
+        if (row == -1) {
+            return;
+        }
+        if (maximumCol > currentImageWidth - 1) {
+            maximumCol = currentImageWidth - 1;
+        }
+        if (minimumCol < 0) {
+            minimumCol = 0;
+        }
 
-			//setting up new energy matrix
-			energyMatrix = setEnergyMatrix();
-			//calculating new offset matrix
-			calcCostMatrix();
-		}
-	}
+        double minValue = Double.MAX_VALUE;
+        int minXValueIndex = 0;
 
-	/**
-	 * finds the minimum seam in the temporary image recursively.
-	 * @param row the image row in which to find the minimal pixel
-	 * @param minCol left most column of pixel bound to find minimum pixel from
-	 * @param maxCol right most column of pixel bound to find minimum pixel from
-	 */
-	private void findMinSeam(int row, int minCol, int maxCol){
-		if (row == -1){
-			return;
-		}
-		if (minCol < 0) {
-			minCol = 0;
-		}
-		if (maxCol > tempImageWidth - 1){
-			maxCol = tempImageWidth - 1;
-		}
+        for (int i = minimumCol; i <= maximumCol; i++) {
+            if (costMatrix[i][row] < minValue) {
+                minXValueIndex = i;
+                minValue = costMatrix[i][row];
+            }
+        }
+        minimalSeam[row] = minXValueIndex;
+        findMinimalSeam(row - 1, minXValueIndex - 1, minXValueIndex + 1); //searching recursively
+    }
 
-		double minValue = Double.MAX_VALUE;
-		int minXValueIndex = 0;
+    private void addSeam(int seamIndex) {
+        for (int i = 0; i < minimalSeam.length; i++) {
+            allSeamsList[seamIndex][i] = offsetMatrix[minimalSeam[i]][i];
+        }
+    }
 
-		for(int i = minCol; i <= maxCol; i++){
-			if (costMatrix[i][row] < minValue){
-				minXValueIndex = i;
-				minValue = costMatrix[i][row];
-			}
-		}
-		minimalSeam[row] = minXValueIndex;
-		findMinSeam(row - 1, minXValueIndex - 1, minXValueIndex + 1); //searching recursively
-	}
+    private void removeMinimalSeam() {
+        currentImageWidth--;
+        BufferedImage temporaryImage = newEmptyImage(currentImageWidth, currentImageHeight);
+        for (int row = 0; row < currentImageHeight; row++) {
+            for (int col = 0; col < currentImageWidth; col++) {
+                int colToSet = col < minimalSeam[row] ? col : col + 1;
+                temporaryImage.setRGB(col, row, greyedImage.getRGB(colToSet, row));
+            }
+        }
+        greyedImage = temporaryImage;
+        gradientMagnitudeImage = calcMagnitude();
+    }
 
-	private void addSeam(int seamIndex){
-		for (int i = 0; i < minimalSeam.length; i++){
-			allSeams[seamIndex][i] = offsetMatrix[minimalSeam[i]][i];
-		}
-	}
+    private void updateOffsetMatrix() {
+        int[][] tempOffsetMatrix = new int[currentImageWidth][currentImageHeight];
+        for (int i = 0; i < currentImageHeight; i++) {
+            int col = 0;
+            for (int j = 0; j < currentImageWidth; j++) {
+                if (minimalSeam[i] == j) {
+                    col++;
+                }
+                tempOffsetMatrix[j][i] = offsetMatrix[col][i];
+                col++;
+            }
+        }
+        offsetMatrix = tempOffsetMatrix;
+    }
 
-	private void removeMinSeam(){
-		tempImageWidth--;
-		BufferedImage temporaryImage = newEmptyImage(tempImageWidth, tempImageHeight);
-		for(int row = 0; row < tempImageHeight; row++){
-			for (int col = 0; col < tempImageWidth; col++){
+    private BufferedImage increaseImageWidth() {
+        boolean[][] filter = new boolean[inWidth][inHeight];
+        BufferedImage resultedImage = newEmptyImage(inWidth + numOfSeams, inHeight);
+        markPixels(filter);
 
-				if (col < minimalSeam[row]){
-					temporaryImage.setRGB(col, row, greyedImage.getRGB(col, row));
-				} else {
-					temporaryImage.setRGB(col, row, greyedImage.getRGB(col + 1, row));
-				}
-			}
-		}
-		greyedImage = temporaryImage;
-		gradientMagnitudeImage = calcMagnitude();
-	}
+        for (int i = 0; i < inHeight; i++) {
+            int col = 0;
+            for (int j = 0; j < inWidth + numOfSeams; j++) {
+                if (filter[col][i]) {
+                    resultedImage.setRGB(j, i, workingImage.getRGB(col, i));
+                    resultedImage.setRGB(j + 1, i, workingImage.getRGB(col, i));
+                    j++;
+                } else {
+                    resultedImage.setRGB(j, i, workingImage.getRGB(col, i));
+                }
+                col++;
+            }
+        }
+        return resultedImage;
+    }
 
-	private void updateOffsetMatrix(){
-		int[][] tempMatrix = new int[tempImageWidth][tempImageHeight];
-		for (int i = 0; i < tempImageHeight; i++){
-			int col = 0;
-			for (int j = 0; j < tempImageWidth; j++){
-				if (minimalSeam[i] == j){
-					col++;
-				}
-				tempMatrix[j][i] = offsetMatrix[col][i];
-				col++;
-			}
-		}
-		offsetMatrix = tempMatrix;
-	}
+    public BufferedImage showSeams(int seamColorRGB) {
+        boolean[][] filter = new boolean[inWidth][inHeight];
+        BufferedImage imageWithSeams = newEmptyImage(inWidth, inHeight);
+        markPixels(filter);
+        Color seamColor = new Color(seamColorRGB);
 
-	private BufferedImage increaseImageWidth() {
-		boolean[][] filter = new boolean[inWidth][inHeight];
-		BufferedImage resultedImage = newEmptyImage(inWidth + numOfSeams, inHeight);
-		markPixelsToRemove(filter);
+        forEach((y,x) -> {
+            if (filter[x][y]){
+                imageWithSeams.setRGB(x, y, seamColor.getRGB());
+            } else {
+                imageWithSeams.setRGB(x, y, workingImage.getRGB(x, y));
 
-		for(int i = 0; i < inHeight; i++){
-			int col = 0; //filter matrix column index
-			for(int j = 0; j < inWidth + numOfSeams; j++){
-				if(filter[col][i]){ //if col,j are seam coordinates, duplicate pixel i,j also to i,j+1
-					resultedImage.setRGB(j,i,workingImage.getRGB(col,i));
-					resultedImage.setRGB(j+1,i,workingImage.getRGB(col,i));
-					j++;
-				}
-				else{
-					resultedImage.setRGB(j,i,workingImage.getRGB(col,i));
-				}
-				col++;
-			}
-		}
-		return resultedImage;
-	}
+            }
+        });
+        return imageWithSeams;
+    }
 
-	public BufferedImage showSeams(int seamColorRGB) {
-		boolean[][] filter = new boolean[inWidth][inHeight];
-		BufferedImage ans = newEmptyImage(inWidth, inHeight);
-		markPixelsToRemove(filter);
-		Color seamColor = new Color(seamColorRGB);
-		for (int i = 0; i < inHeight; i++){
-			for (int j = 0; j < inWidth; j++){
-				if (filter[j][i]){
-					ans.setRGB(j, i, seamColor.getRGB());
-				} else {
-					ans.setRGB(j, i, workingImage.getRGB(j, i));
-				}
-			}
-		}
-		return ans;
-	}
-
-	public boolean[][] getMaskAfterSeamCarving() {
-		// This method should return the mask of the resize image after seam carving. Meaning,
-		// after applying Seam Carving on the input image, getMaskAfterSeamCarving() will return
-		// a mask, with the same dimensions as the resized image, where the mask values match the
-		// original mask values for the corresponding pixels.
-		// HINT:
-		// Once you remove (replicate) the chosen seams from the input image, you need to also
-		// remove (replicate) the matching entries from the mask as well.
-
-		boolean[][] newMask = new boolean[outHeight][outWidth];
-		for(int y=0;y<outHeight;y++) {
-			for(int x=0;x<outWidth;x++) {
-				if(imageMask[y][offsetMatrix[x][y]]) {
-					newMask[y][x] = true;
-				}
-			}
-		}
-		return newMask;
-	}
-
+    public boolean[][] getMaskAfterSeamCarving() {
+        boolean[][] newMask = new boolean[outHeight][outWidth];
+        for (int y = 0; y < outHeight; y++) {
+            for (int x = 0; x < outWidth; x++) {
+                if (imageMask[y][offsetMatrix[x][y]]) {
+                    newMask[y][x] = true;
+                }
+            }
+        }
+        return newMask;
+    }
 }
