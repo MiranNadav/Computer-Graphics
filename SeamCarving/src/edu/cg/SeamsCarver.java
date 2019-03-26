@@ -82,15 +82,8 @@ public class SeamsCarver extends ImageProcessor {
     }
 
     private BufferedImage reduceImageWidth() {
-        // 1. Create a matrix M (same size of pic)
-        // 2. Calc gradient magnitude for each pixel
-        // 3. Calc with dynamic programming the new formula (minimum of top 3 pixels)
-        // 4. Backtrack
-        // 5. Remove the Seam
-        // 6. recalculate matrix M (neighbors of the removed pixels)
-
         boolean[][] filter = new boolean[inWidth][inHeight];
-        BufferedImage ans = newEmptyImage(currentImageWidth, currentImageHeight);
+        BufferedImage currentReducedImage = newEmptyImage(currentImageWidth, currentImageHeight);
         markPixels(filter);
         for (int i = 0; i < currentImageHeight; i++) {
             int col = 0;
@@ -98,13 +91,12 @@ public class SeamsCarver extends ImageProcessor {
                 while (col < inWidth && filter[col][i]) {
                     col++;
                 }
-                ans.setRGB(j, i, workingImage.getRGB(col, i));
+                currentReducedImage.setRGB(j, i, workingImage.getRGB(col, i));
                 col++;
             }
         }
-//		this.popForEachParameters();
-//		setMaskAfterWidthReduce();
-        return ans;
+
+        return currentReducedImage;
     }
 
     private void markPixels(boolean[][] filter) {
@@ -150,7 +142,7 @@ public class SeamsCarver extends ImageProcessor {
 
         forEach((y, x) -> {
             double CR, CV, CL;
-            if (y == 0) { //first row cost matrix value are the pixel's energy.
+            if (y == 0) {
                 costMatrix[x][y] = energyMatrix[x][y];
             } else {
                 //Calculation for cost matrix, taking care of special cases - left edge, right edge, or regular calculation.
@@ -214,7 +206,7 @@ public class SeamsCarver extends ImageProcessor {
             }
         }
         minimalSeam[row] = minXValueIndex;
-        findMinimalSeam(row - 1, minXValueIndex - 1, minXValueIndex + 1); //searching recursively
+        findMinimalSeam(row - 1, minXValueIndex - 1, minXValueIndex + 1);
     }
 
     private void addSeam(int seamIndex) {
