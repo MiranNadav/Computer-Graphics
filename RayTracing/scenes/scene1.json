@@ -33,8 +33,7 @@
     "viewPlainWidth": 2.0,
     "distanceToPlain": 2.0,
     "resX": 200.0,
-    "resY": 200.0,
-    "pixelRatio": 0.0
+    "resY": 200.0
   },
   "ambient": {
     "x": 0.0,

@@ -149,19 +149,19 @@ public class Scene {
 
     private Future<Color> calcColor(int x, int y) {
         return this.executor.submit(() -> {
-            Point leftUp = this.camera.transform(x, y);
-            Point rightDown = this.camera.transform(x + 1, y + 1);
-            Vec color = new Vec();
+            Point rightDownPoint = this.camera.transform(x + 1, y + 1);
+            Point leftUpPoint = this.camera.transform(x, y);
+            Vec currentColor = new Vec();
             for (int i = 0; i < this.antiAliasingFactor; i++) {
                 for (int j = 0; j < this.antiAliasingFactor; j++) {
-                    Point leftUpWeight = new Point(this.antiAliasingFactor - j, this.antiAliasingFactor - i, this.antiAliasingFactor).mult(1.0 / (double)this.antiAliasingFactor);
                     Point rightDownWeight = new Point(j, i, 0.0).mult(1.0 / (double)this.antiAliasingFactor);
-                    Point pointOnScreenPlain = Ops.add(leftUp.mult(leftUpWeight), rightDown.mult(rightDownWeight));
-                    Ray ray = new Ray(this.camera.getCameraPosition(), pointOnScreenPlain);
-                    color = color.add(this.calcColor(ray, 0));
+                    Point leftUpWeight = new Point(this.antiAliasingFactor - j, this.antiAliasingFactor - i, this.antiAliasingFactor).mult(1.0 / (double)this.antiAliasingFactor);
+                    Point pointInSurface = Ops.add(rightDownPoint.mult(rightDownWeight), leftUpPoint.mult(leftUpWeight));
+                    Ray currentRay = new Ray(this.camera.getCameraPosition(), pointInSurface);
+                    currentColor = currentColor.add(this.calcColor(currentRay, 0));
                 }
             }
-            return color.mult(1 / (double)(this.antiAliasingFactor * this.antiAliasingFactor)).toColor();
+            return currentColor.mult(1 / (Math.pow(this.antiAliasingFactor,2))).toColor();
         });
     }
 
@@ -181,6 +181,7 @@ public class Scene {
         Vec temporaryColor;
         Vec intensity;
         Ray rayToLight;
+
         for (Light light : this.lightSources) {
             rayToLight = light.rayToLight(hitPoint);
             if (!this.isOccluded(light, rayToLight)){
@@ -193,42 +194,40 @@ public class Scene {
 
         // Handle Reflections
         if (this.renderReflections) {
-            Vec reflectionDirection = Ops.reflect(ray.direction(), minHit.getNormalToSurface());
-            Vec reflectionWeight = new Vec(surface.reflectionIntensity());
-            Vec reflectionColor = this.calcColor(new Ray(hitPoint, reflectionDirection), recursionLevel + 1).mult(reflectionWeight);
-            color = color.add(reflectionColor);
+            Vec reflectDirection = Ops.reflect(ray.direction(), minHit.getNormalToSurface());
+            Vec reflectIntensity = new Vec(surface.reflectionIntensity());
+            Vec reflectColor = this.calcColor(new Ray(hitPoint, reflectDirection), recursionLevel + 1).mult(reflectIntensity);
+            color = color.add(reflectColor);
         }
 
         // Handle Refractions
         if (this.renderRefarctions) {
-            Vec refractionColor = new Vec();
+            Vec refractColor;
             if (surface.isTransparent()) {
                 double n1 = surface.n1(minHit);
                 double n2 = surface.n2(minHit);
-                Vec refractionDirection = Ops.refract(ray.direction(), minHit.getNormalToSurface(), n1, n2);
-                Vec refractionWeight = new Vec(surface.refractionIntensity());
-                refractionColor = this.calcColor(new Ray(hitPoint, refractionDirection), recursionLevel + 1).mult(refractionWeight);
-                color = color.add(refractionColor);
+                Vec refractDirection = Ops.refract(ray.direction(), minHit.getNormalToSurface(), n1, n2);
+                Vec refractWeight = new Vec(surface.refractionIntensity());
+                refractColor = this.calcColor(new Ray(hitPoint, refractDirection), recursionLevel + 1).mult(refractWeight);
+                color = color.add(refractColor);
             }
         }
-
-
         return color;
     }
 
     private Vec colorDiffuse(Hit minHit, Ray rayToLight) {
-        Vec normal = minHit.getNormalToSurface();
+        Vec normalVector = minHit.getNormalToSurface();
+        Vec lightVector = rayToLight.direction();
         Vec Kd = minHit.getSurface().Kd();
-        Vec light = rayToLight.direction();
-        return Kd.mult(Math.max(normal.dot(light), 0.0));
+        return Kd.mult(Math.max(normalVector.dot(lightVector), 0.0));
     }
 
     private Vec colorSpecular(Hit minHit, Ray rayToLight, Ray rayFromViewer) {
-        Vec light = rayToLight.direction();
-        Vec normal = minHit.getNormalToSurface();
+        Vec normalVector = minHit.getNormalToSurface();
+        Vec lightVector = rayToLight.direction();
         Vec Ks = minHit.getSurface().Ks();
         Vec v = rayFromViewer.direction();
-        Vec reflection = Ops.reflect(light.neg(), normal);
+        Vec reflection = Ops.reflect(lightVector.neg(), normalVector);
         int shine = minHit.getSurface().shininess();
         double dot = reflection.dot(v.neg());
         if (dot < 0){
@@ -240,7 +239,7 @@ public class Scene {
 
     private boolean isOccluded(Light light, Ray rayToLight) {
         for (Surface surface : this.surfaces) {
-            if (!light.isOccludedBy(surface, rayToLight)){
+            if (light.isOccludedBy(surface, rayToLight)){
                 return true;
             }
         }
@@ -258,4 +257,6 @@ public class Scene {
         }
         return minHit;
     }
+
+
 }

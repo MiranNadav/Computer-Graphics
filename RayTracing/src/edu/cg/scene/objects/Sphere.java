@@ -38,7 +38,6 @@ public class Sphere
 		double t1 = (-b - discriminant) / 2.0;
 		double t2 = (-b + discriminant) / 2.0;
 
-
 		Hit hit = null;
 		Vec v;
 		if (t1 <= Ops.infinity && t1 >= Ops.epsilon) {
