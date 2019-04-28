@@ -102,7 +102,7 @@
   "surfaces": [
     {
       "shape": {
-        "CLASSNAME": "edu.cg.scene.objects.AxisAlignedRectangle",
+        "CLASSNAME": "edu.cg.scene.objects.AxisAlignedBox",
         "DATA": {
           "minPoint": {
             "x": 0.0,

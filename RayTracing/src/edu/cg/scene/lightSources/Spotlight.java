@@ -1,5 +1,6 @@
 package edu.cg.scene.lightSources;
 
+import edu.cg.algebra.Ops;
 import edu.cg.algebra.Point;
 import edu.cg.algebra.Ray;
 import edu.cg.algebra.Vec;
@@ -40,7 +41,7 @@ public class Spotlight extends PointLight {
 
 	@Override
 	public boolean isOccludedBy(Surface surface, Ray rayToLight) {
-		if (rayToLight.direction().neg().dot(this.direction.normalize()) < 1.0 * Math.pow(10,-5)) {
+		if (rayToLight.direction().neg().dot(this.direction.normalize()) < Ops.epsilon) {
 			return true;
 		}
 		return super.isOccludedBy(surface, rayToLight);
@@ -48,12 +49,11 @@ public class Spotlight extends PointLight {
 
 	@Override
 	public Vec intensity(Point hittingPoint, Ray rayToLight) {
-		Vec L;
 		Vec D = this.direction.normalize().neg();
-		double cosGamma = D.dot(L = rayToLight.direction());
-		if (cosGamma < 1.0 * Math.pow(10,-5)) {
+		double cosinGamma = D.dot(rayToLight.direction());
+		if (cosinGamma < Ops.epsilon) {
 			return new Vec(0.0);
 		}
-		return super.intensity(hittingPoint, rayToLight).mult(cosGamma);
+		return super.intensity(hittingPoint, rayToLight).mult(cosinGamma);
 	}
 }
