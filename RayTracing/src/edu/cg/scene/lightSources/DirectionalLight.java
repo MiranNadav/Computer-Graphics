@@ -24,8 +24,6 @@ public class DirectionalLight extends Light {
 	public DirectionalLight initIntensity(Vec intensity) {
 		return (DirectionalLight)super.initIntensity(intensity);
 	}
-	
-	//TODO: add some methods
 
 	@Override
 	public Vec intensity(Point hittingPoint, Ray rayToLight) {
