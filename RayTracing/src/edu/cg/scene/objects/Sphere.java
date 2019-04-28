@@ -3,10 +3,7 @@
  */
 package edu.cg.scene.objects;
 
-import edu.cg.algebra.Hit;
-import edu.cg.algebra.Point;
-import edu.cg.algebra.Ray;
-import edu.cg.algebra.Vec;
+import edu.cg.algebra.*;
 import edu.cg.scene.objects.Shape;
 
 public class Sphere
@@ -28,49 +25,33 @@ public class Sphere
 		return "Sphere:" + endl + "Center: " + this.center + endl + "Radius: " + this.radius + endl;
 	}
 
-	public Sphere initCenter(Point center) {
-		this.center = center;
-		return this;
-	}
-
-	public Sphere initRadius(double radius) {
-		this.radius = radius;
-		return this;
-	}
-
-	private Vec normal(Point p) {
-		return p.sub(this.center).normalize();
-	}
-
-	public double substitute(Point p) {
-		return p.distSqr(this.center) - this.radius * this.radius;
-	}
-
 	@Override
 	public Hit intersect(Ray ray) {
-		double c;
+		//TODO : refactor a little
 		double b = ray.direction().mult(2.0).dot(ray.source().sub(this.center));
-		double discriminant = Math.sqrt(b * b - 4.0 * (c = this.substitute(ray.source())));
+		double c = ray.source().distSqr(this.center) - this.radius * this.radius;
+		double discriminant = Math.sqrt(b * b - 4.0 * c);
 		if (Double.isNaN(discriminant)) {
 			return null;
 		}
+
 		double t1 = (-b - discriminant) / 2.0;
 		double t2 = (-b + discriminant) / 2.0;
-		if (t2 < 1.0E-5) {
-			return null;
+
+
+		Hit hit = null;
+		Vec v;
+		if (t1 <= Ops.infinity && t1 >= Ops.epsilon) {
+			v = ray.add(t1).sub(this.center).normalize();
+			hit = new Hit(t1, v);
+		} else if (t2 <= Ops.infinity && t2 >= Ops.epsilon) {
+			v = ray.add(t2).sub(this.center).neg();
+			hit = new Hit(t2, v);
+			hit.setWithin();
 		}
-		double minT = t1;
-		Vec normal = this.normal(ray.add(t1));
-		boolean isWithin = false;
-		if (t1 < 1.0E-5) {
-			minT = t2;
-			normal = this.normal(ray.add(t2)).neg();
-			isWithin = true;
-		}
-		if (minT > 1.0E8) {
-			return null;
-		}
-		return new Hit(minT, normal).setIsWithin(isWithin);
+
+		return hit;
+
 	}
 }
 

@@ -61,9 +61,9 @@ public class PointLight
 
 	@Override
 	public Vec intensity(Point hittingPoint, Ray rayToLight) {
-		double dist = hittingPoint.dist(this.position);
-		double decay = this.kc + (this.kl + this.kq * dist) * dist;
-		return this.intensity.mult(1.0 / decay);
+		double distance = hittingPoint.dist(this.position);
+		double decay = this.kc + (this.kl + this.kq * distance) * distance;
+		return this.intensity.mult(1 / decay);
 	}
 }
 
