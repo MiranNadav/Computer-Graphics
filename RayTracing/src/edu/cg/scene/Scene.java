@@ -247,15 +247,15 @@ public class Scene {
     }
 
     private Hit intersect(Ray ray) {
-        Hit minHit = null;
+        Hit minimalHit = null;
         for (Surface surface : this.surfaces) {
             Hit newHit = surface.intersect(ray);
-            if (minHit != null && (newHit == null || newHit.compareTo(minHit) >= 0)) {
+            if (minimalHit != null && (newHit == null || newHit.compareTo(minimalHit) >= 0)) {
                 continue;
             }
-            minHit = newHit;
+            minimalHit = newHit;
         }
-        return minHit;
+        return minimalHit;
     }
 
 

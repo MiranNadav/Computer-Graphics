@@ -1,0 +1,102 @@
+{
+  "name": "scene6",
+  "maxRecursionLevel": 6,
+  "antiAliasingFactor": 1,
+  "renderRefarctions": true,
+  "renderReflections": true,
+  "camera": {
+    "cameraPosition": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 2.0
+    },
+    "centerPoint": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 1.0
+    },
+    "towardsVec": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": -1.0
+    },
+    "upVec": {
+      "x": 0.7071067811865475,
+      "y": 0.7071067811865475,
+      "z": 0.0
+    },
+    "rightVec": {
+      "x": 0.7071067811865475,
+      "y": -0.7071067811865475,
+      "z": 0.0
+    },
+    "distanceToPlain": 1.0,
+    "viewWidth": 0.0,
+    "Rx": 0.0,
+    "Ry": 0.0
+  },
+  "ambient": {
+    "x": 1.0,
+    "y": 1.0,
+    "z": 1.0
+  },
+  "backgroundColor": {
+    "x": 0.0,
+    "y": 0.5,
+    "z": 1.0
+  },
+  "lightSources": [
+    {
+      "CLASSNAME": "edu.cg.scene.lightSources.DirectionalLight",
+      "DATA": {
+        "direction": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -1.0
+        },
+        "intensity": {
+          "x": 0.7,
+          "y": 0.7,
+          "z": 0.7
+        }
+      }
+    }
+  ],
+  "surfaces": [
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+          },
+          "radius": 0.5
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.3420590055736771,
+          "y": 0.8025989718865449,
+          "z": 0.9376541718312499
+        },
+        "Kd": {
+          "x": 0.3420590055736771,
+          "y": 0.8025989718865449,
+          "z": 0.9376541718312499
+        },
+        "Ks": {
+          "x": 0.33879966605311107,
+          "y": 0.33879966605311107,
+          "z": 0.33879966605311107
+        },
+        "reflectionIntensity": 0.011504701380607385,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.17228240760013563,
+        "refractionIndex": 1.305906184811338
+      }
+    }
+  ]
+}

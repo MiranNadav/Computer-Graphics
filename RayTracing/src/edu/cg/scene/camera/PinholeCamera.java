@@ -11,7 +11,7 @@ public class PinholeCamera {
 	Vec towardsVec;
 	Vec upVec;
 	Vec rightVec;
-	double distToPlain;
+	double distanceToPlain;
 	double viewWidth;
 	double Rx;
 	double Ry;
@@ -27,13 +27,11 @@ public class PinholeCamera {
 	 */
 	public PinholeCamera(Point cameraPosition, Vec towardsVec, Vec upVec, double distanceToPlain) {
 		this.cameraPosition = cameraPosition;
-		this.distToPlain = distanceToPlain;
-		this.viewWidth = 2;
-		this.Rx = this.Ry = 200;
+		this.distanceToPlain = distanceToPlain;
 		this.towardsVec = towardsVec.normalize();
 		this.upVec = upVec.normalize();
 		this.rightVec = this.towardsVec.cross(upVec).normalize();
-		this.centerPoint = new Ray(cameraPosition, towardsVec).add(distToPlain);
+		this.centerPoint = new Ray(cameraPosition, towardsVec).add(distanceToPlain);
 	}
 
 
@@ -58,11 +56,11 @@ public class PinholeCamera {
 	public Point transform(int x, int y) {
 		double pixelWidth = this.viewWidth / this.Rx;
 		double pixelHeight = pixelWidth;
-		double rightDistance = pixelWidth * (x - (int)(this.Rx / 2.0));
-		double upDistance = pixelHeight * ((int)(this.Ry / 2.0) - y);
-		Vec upMovement = this.upVec.mult(upDistance);
-		Vec rightMovement = this.rightVec.mult(rightDistance);
-		Point result = this.centerPoint.add(upMovement).add(rightMovement);
+		double rightDist = pixelWidth * (x - (int)(this.Rx / 2.0));
+		double upDist = pixelHeight * ((int)(this.Ry / 2.0) - y);
+		Vec upVector = this.upVec.mult(upDist);
+		Vec rightVector = this.rightVec.mult(rightDist);
+		Point result = this.centerPoint.add(upVector).add(rightVector);
 		return result;
 	}
 
@@ -75,71 +73,3 @@ public class PinholeCamera {
 	}
 
 }
-
-//
-///*
-// * Decompiled with CFR 0.143.
-// */
-
-//package edu.cg.scene.camera;
-//
-//import edu.cg.algebra.Point;
-//import edu.cg.algebra.Ray;
-//import edu.cg.algebra.Vec;
-//
-//public class PinholeCamera {
-//	Point cameraPosition;
-//	Point centerPoint;
-//	Vec towardsVec;
-//	Vec upVec;
-//	Vec rightVec;
-//	double viewPlainWidth;
-//	double distanceToPlain;
-//	double resX;
-//	double resY;
-//
-////	public PinholeCamera(Point cameraPosition, Vec towardsVec, Vec upVec, double distanceToPlain) {
-////		this.cameraPosition = cameraPosition;
-////		this.towardsVec = towardsVec.normalize();
-////		this.rightVec = this.towardsVec.cross(upVec).normalize();
-////		this.upVec = this.rightVec.cross(this.towardsVec).normalize();
-////		this.distanceToPlain = distanceToPlain;
-////		this.centerPoint = new Ray(cameraPosition, towardsVec).add(distanceToPlain);
-////		this.resX = 200.0;
-////		this.resY = 200.0;
-////		this.viewPlainWidth = 2.0;
-////	}
-//
-//	public PinholeCamera(Point cameraPosition, Vec towardsVec, Vec upVec, double distanceToPlain) {
-//		this.cameraPosition = cameraPosition;
-//		this.distanceToPlain = distanceToPlain;
-//		this.viewPlainWidth = 2;
-//		this.resX = this.resY = 200;
-//		this.towardsVec = towardsVec.normalize();
-//		this.upVec = upVec.normalize();
-//		this.rightVec = this.towardsVec.cross(upVec).normalize();
-//		this.centerPoint = new Ray(cameraPosition, towardsVec).add(distanceToPlain);
-//	}
-//
-//	public void initResolution(int height, int width, double viewPlainWidth) {
-//		this.viewPlainWidth = viewPlainWidth;
-//		this.resX = width;
-//		this.resY = height;
-//	}
-//
-//	public Point transform(int x, int y) {
-//		double pixelWidth;
-//		double pixelHeight = pixelWidth = this.viewPlainWidth / this.resX;
-//		double upDistance = (double)(y - (int)(this.resY / 2.0)) * pixelHeight * -1.0;
-//		double rightDistance = (double)(x - (int)(this.resX / 2.0)) * pixelWidth;
-//		Vec upMovement = this.upVec.mult(upDistance);
-//		Vec rightMovement = this.rightVec.mult(rightDistance);
-//		Point fovPoint = this.centerPoint.add(upMovement).add(rightMovement);
-//		return fovPoint;
-//	}
-//
-//	public Point getCameraPosition() {
-//		return new Point(this.cameraPosition.x, this.cameraPosition.y, this.cameraPosition.z);
-//	}
-//}
-
