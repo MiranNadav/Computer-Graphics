@@ -1,7 +1,6 @@
 package edu.cg.scene.objects;
 
 import edu.cg.algebra.*;
-import edu.cg.scene.objects.Shape;
 
 public class Sphere
         extends Shape {

@@ -13,7 +13,6 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -203,25 +202,35 @@ public class Scene {
 
         // Handle Refractions
         if (this.renderRefarctions) {
-            Vec refractColor;
-            if (surface.isTransparent()) {
-                double n1 = surface.n1(minimalHit);
-                double n2 = surface.n2(minimalHit);
-                Vec refractDirection = Ops.refract(ray.direction(), minimalHit.getNormalToSurface(), n1, n2);
-                Vec refractWeight = new Vec(surface.refractionIntensity());
-                refractColor = this.calcColor(new Ray(hittingPoint, refractDirection), recursionLevel + 1).mult(refractWeight);
-                color = color.add(refractColor);
-            }
+            color = handleRefraction(ray, recursionLevel, minimalHit, surface, hittingPoint, color);
         }
 
         // Handle Reflections
         if (this.renderReflections) {
-            Vec reflectDirection = Ops.reflect(ray.direction(), minimalHit.getNormalToSurface());
-            Vec reflectIntensity = new Vec(surface.reflectionIntensity());
-            Vec reflectColor = this.calcColor(new Ray(hittingPoint, reflectDirection), recursionLevel + 1).mult(reflectIntensity);
-            color = color.add(reflectColor);
+            color = handleReflection(ray, recursionLevel, minimalHit, surface, hittingPoint, color);
         }
 
+        return color;
+    }
+
+    private Vec handleReflection(Ray ray, int recursionLevel, Hit minimalHit, Surface surface, Point hittingPoint, Vec color) {
+        Vec reflectDirection = Ops.reflect(ray.direction(), minimalHit.getNormalToSurface());
+        Vec reflectIntensity = new Vec(surface.reflectionIntensity());
+        Vec reflectColor = this.calcColor(new Ray(hittingPoint, reflectDirection), recursionLevel + 1).mult(reflectIntensity);
+        color = color.add(reflectColor);
+        return color;
+    }
+
+    private Vec handleRefraction(Ray ray, int recursionLevel, Hit minimalHit, Surface surface, Point hittingPoint, Vec color) {
+        Vec refractColor;
+        if (surface.isTransparent()) {
+            double n1 = surface.n1(minimalHit);
+            double n2 = surface.n2(minimalHit);
+            Vec refractDirection = Ops.refract(ray.direction(), minimalHit.getNormalToSurface(), n1, n2);
+            Vec refractWeight = new Vec(surface.refractionIntensity());
+            refractColor = this.calcColor(new Ray(hittingPoint, refractDirection), recursionLevel + 1).mult(refractWeight);
+            color = color.add(refractColor);
+        }
         return color;
     }
 

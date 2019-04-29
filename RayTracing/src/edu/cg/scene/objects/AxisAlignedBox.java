@@ -4,7 +4,6 @@ import edu.cg.algebra.Hit;
 import edu.cg.algebra.Point;
 import edu.cg.algebra.Ray;
 import edu.cg.algebra.Vec;
-import edu.cg.scene.objects.Shape;
 
 public class AxisAlignedBox
 		extends Shape {

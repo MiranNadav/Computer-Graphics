@@ -1,6 +1,5 @@
 package edu.cg.scene.objects;
 
-import edu.cg.UnimplementedMethodException;
 import edu.cg.algebra.Hit;
 import edu.cg.algebra.Ray;
 import edu.cg.algebra.Vec;
