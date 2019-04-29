@@ -1,0 +1,1696 @@
+{
+  "name": "scene7",
+  "maxRecursionLevel": 6,
+  "antiAliasingFactor": 1,
+  "renderRefarctions": true,
+  "renderReflections": true,
+  "camera": {
+    "cameraPosition": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 2.0
+    },
+    "centerPoint": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 1.0
+    },
+    "towardsVec": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": -1.0
+    },
+    "upVec": {
+      "x": 0.7071067811865475,
+      "y": 0.7071067811865475,
+      "z": 0.0
+    },
+    "rightVec": {
+      "x": 0.7071067811865475,
+      "y": -0.7071067811865475,
+      "z": 0.0
+    },
+    "distanceToPlain": 1.0,
+    "viewWidth": 0.0,
+    "Rx": 0.0,
+    "Ry": 0.0
+  },
+  "ambient": {
+    "x": 1.0,
+    "y": 1.0,
+    "z": 1.0
+  },
+  "backgroundColor": {
+    "x": 0.0,
+    "y": 0.5,
+    "z": 1.0
+  },
+  "lightSources": [
+    {
+      "CLASSNAME": "edu.cg.scene.lightSources.DirectionalLight",
+      "DATA": {
+        "direction": {
+          "x": -0.5,
+          "y": -0.5,
+          "z": -1.0
+        },
+        "intensity": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      }
+    },
+    {
+      "CLASSNAME": "edu.cg.scene.lightSources.PointLight",
+      "DATA": {
+        "position": {
+          "x": 6.0,
+          "y": 4.0,
+          "z": 6.0
+        },
+        "kq": 0.01,
+        "kl": 0.1,
+        "kc": 1.0,
+        "intensity": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      }
+    },
+    {
+      "CLASSNAME": "edu.cg.scene.lightSources.PointLight",
+      "DATA": {
+        "position": {
+          "x": 4.0,
+          "y": 12.0,
+          "z": 6.0
+        },
+        "kq": 0.01,
+        "kl": 0.1,
+        "kc": 1.0,
+        "intensity": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      }
+    },
+    {
+      "CLASSNAME": "edu.cg.scene.lightSources.PointLight",
+      "DATA": {
+        "position": {
+          "x": -6.0,
+          "y": -20.0,
+          "z": 6.0
+        },
+        "kq": 0.01,
+        "kl": 0.1,
+        "kc": 1.0,
+        "intensity": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      }
+    }
+  ],
+  "surfaces": [
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.1,
+            "y": 0.1,
+            "z": 0.1
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.1804734240051613,
+          "y": 0.2773583997868396,
+          "z": 0.9543010433330145
+        },
+        "Kd": {
+          "x": 0.1804734240051613,
+          "y": 0.2773583997868396,
+          "z": 0.9543010433330145
+        },
+        "Ks": {
+          "x": 0.3946543217029053,
+          "y": 0.3946543217029053,
+          "z": 0.3946543217029053
+        },
+        "reflectionIntensity": 0.0129370669141195,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.1,
+            "y": 0.1,
+            "z": 0.1
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.7757599918553681,
+          "y": 0.6662447560463176,
+          "z": 0.7678777583988097
+        },
+        "Kd": {
+          "x": 0.7757599918553681,
+          "y": 0.6662447560463176,
+          "z": 0.7678777583988097
+        },
+        "Ks": {
+          "x": 0.19832235427136663,
+          "y": 0.19832235427136663,
+          "z": 0.19832235427136663
+        },
+        "reflectionIntensity": 0.2587999300527605,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.1,
+            "y": -0.1,
+            "z": 0.1
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.30859664412647625,
+          "y": 0.09111556311917701,
+          "z": 0.9462666247546978
+        },
+        "Kd": {
+          "x": 0.30859664412647625,
+          "y": 0.09111556311917701,
+          "z": 0.9462666247546978
+        },
+        "Ks": {
+          "x": 0.006411423363191837,
+          "y": 0.006411423363191837,
+          "z": 0.006411423363191837
+        },
+        "reflectionIntensity": 0.35319620975976257,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.44475069702071945,
+        "refractionIndex": 1.5534312576851803
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.1,
+            "y": -0.1,
+            "z": 0.1
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.1,
+          "y": 0.1,
+          "z": 0.1
+        },
+        "Kd": {
+          "x": 0.1,
+          "y": 0.1,
+          "z": 0.1
+        },
+        "Ks": {
+          "x": 0.1,
+          "y": 0.1,
+          "z": 0.1
+        },
+        "reflectionIntensity": 0.8,
+        "shininess": 11,
+        "isTransparent": true,
+        "refractionIntensity": 0.2,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.05,
+            "y": -0.05,
+            "z": 0.05
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.7182165397595531,
+          "y": 0.01574903413582096,
+          "z": 0.9121358608490759
+        },
+        "Kd": {
+          "x": 0.7182165397595531,
+          "y": 0.01574903413582096,
+          "z": 0.9121358608490759
+        },
+        "Ks": {
+          "x": 0.49516116725585946,
+          "y": 0.49516116725585946,
+          "z": 0.49516116725585946
+        },
+        "reflectionIntensity": 0.47255965130972116,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.2,
+            "y": 0.2,
+            "z": 0.2
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.6642610655610032,
+          "y": 0.11480353846630453,
+          "z": 0.07088480640076134
+        },
+        "Kd": {
+          "x": 0.6642610655610032,
+          "y": 0.11480353846630453,
+          "z": 0.07088480640076134
+        },
+        "Ks": {
+          "x": 0.364796050708839,
+          "y": 0.364796050708839,
+          "z": 0.364796050708839
+        },
+        "reflectionIntensity": 0.313183855354819,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.004519970031171994,
+        "refractionIndex": 1.1100918743196124
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.2,
+            "y": 0.2,
+            "z": 0.2
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.6542410973340375,
+          "y": 0.6775231114958166,
+          "z": 0.23614563744823214
+        },
+        "Kd": {
+          "x": 0.6542410973340375,
+          "y": 0.6775231114958166,
+          "z": 0.23614563744823214
+        },
+        "Ks": {
+          "x": 0.25037832378584357,
+          "y": 0.25037832378584357,
+          "z": 0.25037832378584357
+        },
+        "reflectionIntensity": 0.18409781711124645,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.08591217323583372,
+        "refractionIndex": 1.3840652776145936
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.2,
+            "y": -0.2,
+            "z": 0.2
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.6659980169501658,
+          "y": 0.28064638575502654,
+          "z": 0.40892457595879195
+        },
+        "Kd": {
+          "x": 0.6659980169501658,
+          "y": 0.28064638575502654,
+          "z": 0.40892457595879195
+        },
+        "Ks": {
+          "x": 0.3176334584820109,
+          "y": 0.3176334584820109,
+          "z": 0.3176334584820109
+        },
+        "reflectionIntensity": 0.12055372616207144,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.2,
+            "y": -0.2,
+            "z": 0.2
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.082431800262593,
+          "y": 0.1952856819212928,
+          "z": 0.43505791468370103
+        },
+        "Kd": {
+          "x": 0.082431800262593,
+          "y": 0.1952856819212928,
+          "z": 0.43505791468370103
+        },
+        "Ks": {
+          "x": 0.05676980391124237,
+          "y": 0.05676980391124237,
+          "z": 0.05676980391124237
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.1,
+            "y": -0.1,
+            "z": 0.1
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.7408402306281298,
+          "y": 0.873921232167218,
+          "z": 0.9678027484648041
+        },
+        "Kd": {
+          "x": 0.7408402306281298,
+          "y": 0.873921232167218,
+          "z": 0.9678027484648041
+        },
+        "Ks": {
+          "x": 0.07952471019146518,
+          "y": 0.07952471019146518,
+          "z": 0.07952471019146518
+        },
+        "reflectionIntensity": 0.2379976415729187,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.30000000000000004,
+            "y": 0.30000000000000004,
+            "z": 0.30000000000000004
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.9180884050499496,
+          "y": 0.2469195961715508,
+          "z": 0.2778289011286148
+        },
+        "Kd": {
+          "x": 0.9180884050499496,
+          "y": 0.2469195961715508,
+          "z": 0.2778289011286148
+        },
+        "Ks": {
+          "x": 0.2986475702253723,
+          "y": 0.2986475702253723,
+          "z": 0.2986475702253723
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.29566513571848746,
+        "refractionIndex": 1.273223311512251
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.30000000000000004,
+            "y": 0.30000000000000004,
+            "z": 0.30000000000000004
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.61443347738228,
+          "y": 0.22036673701091658,
+          "z": 0.28653247052661024
+        },
+        "Kd": {
+          "x": 0.61443347738228,
+          "y": 0.22036673701091658,
+          "z": 0.28653247052661024
+        },
+        "Ks": {
+          "x": 0.21490941290579235,
+          "y": 0.21490941290579235,
+          "z": 0.21490941290579235
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.30000000000000004,
+            "y": -0.30000000000000004,
+            "z": 0.30000000000000004
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.35806354715808897,
+          "y": 0.1234718163476376,
+          "z": 0.005237615741335522
+        },
+        "Kd": {
+          "x": 0.35806354715808897,
+          "y": 0.1234718163476376,
+          "z": 0.005237615741335522
+        },
+        "Ks": {
+          "x": 0.31437798575374554,
+          "y": 0.31437798575374554,
+          "z": 0.31437798575374554
+        },
+        "reflectionIntensity": 0.1574317984432591,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.4746931944626953,
+        "refractionIndex": 1.0423193836483997
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.30000000000000004,
+            "y": -0.30000000000000004,
+            "z": 0.30000000000000004
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.9495092395276729,
+          "y": 0.4458450357031123,
+          "z": 0.20692626361851152
+        },
+        "Kd": {
+          "x": 0.9495092395276729,
+          "y": 0.4458450357031123,
+          "z": 0.20692626361851152
+        },
+        "Ks": {
+          "x": 0.3145755476589381,
+          "y": 0.3145755476589381,
+          "z": 0.3145755476589381
+        },
+        "reflectionIntensity": 0.09948869652730141,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.33029909096279847,
+        "refractionIndex": 1.3168194746477648
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.15000000000000002,
+            "y": -0.15000000000000002,
+            "z": 0.15000000000000002
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.9657916938678173,
+          "y": 0.3949575112958128,
+          "z": 0.5768294812970209
+        },
+        "Kd": {
+          "x": 0.9657916938678173,
+          "y": 0.3949575112958128,
+          "z": 0.5768294812970209
+        },
+        "Ks": {
+          "x": 0.34663546900001024,
+          "y": 0.34663546900001024,
+          "z": 0.34663546900001024
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.4,
+            "y": 0.4,
+            "z": 0.4
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.7602466534394166,
+          "y": 0.40004569477037766,
+          "z": 0.1246210076770653
+        },
+        "Kd": {
+          "x": 0.7602466534394166,
+          "y": 0.40004569477037766,
+          "z": 0.1246210076770653
+        },
+        "Ks": {
+          "x": 0.36122052807055494,
+          "y": 0.36122052807055494,
+          "z": 0.36122052807055494
+        },
+        "reflectionIntensity": 0.3136426280590934,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.10923238042930555,
+        "refractionIndex": 1.3570414453932504
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.4,
+            "y": 0.4,
+            "z": 0.4
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.7661998621300146,
+          "y": 0.0029862726798206563,
+          "z": 0.02110550864168559
+        },
+        "Kd": {
+          "x": 0.7661998621300146,
+          "y": 0.0029862726798206563,
+          "z": 0.02110550864168559
+        },
+        "Ks": {
+          "x": 0.3219551183028559,
+          "y": 0.3219551183028559,
+          "z": 0.3219551183028559
+        },
+        "reflectionIntensity": 0.3466854911542914,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.4,
+            "y": -0.4,
+            "z": 0.4
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.40614776889880766,
+          "y": 0.4880704132810262,
+          "z": 0.2144620690996787
+        },
+        "Kd": {
+          "x": 0.40614776889880766,
+          "y": 0.4880704132810262,
+          "z": 0.2144620690996787
+        },
+        "Ks": {
+          "x": 0.28620319440637265,
+          "y": 0.28620319440637265,
+          "z": 0.28620319440637265
+        },
+        "reflectionIntensity": 0.2778876133576322,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.4,
+            "y": -0.4,
+            "z": 0.4
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.6522762178460576,
+          "y": 0.4568760290552222,
+          "z": 0.30969711092886376
+        },
+        "Kd": {
+          "x": 0.6522762178460576,
+          "y": 0.4568760290552222,
+          "z": 0.30969711092886376
+        },
+        "Ks": {
+          "x": 0.2818438270963824,
+          "y": 0.2818438270963824,
+          "z": 0.2818438270963824
+        },
+        "reflectionIntensity": 0.47904003462876055,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.3456814514655676,
+        "refractionIndex": 1.6512616336048618
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.2,
+            "y": -0.2,
+            "z": 0.2
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.3171583890481525,
+          "y": 0.4937724584737426,
+          "z": 0.352639744364867
+        },
+        "Kd": {
+          "x": 0.3171583890481525,
+          "y": 0.4937724584737426,
+          "z": 0.352639744364867
+        },
+        "Ks": {
+          "x": 0.013156092983029333,
+          "y": 0.013156092983029333,
+          "z": 0.013156092983029333
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.3871437327979117,
+        "refractionIndex": 1.1402941789924848
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.1,
+          "y": 0.1,
+          "z": 0.1
+        },
+        "Kd": {
+          "x": 0.1,
+          "y": 0.1,
+          "z": 0.1
+        },
+        "Ks": {
+          "x": 0.1,
+          "y": 0.1,
+          "z": 0.1
+        },
+        "reflectionIntensity": 0.95,
+        "shininess": 9,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.5,
+            "y": 0.5,
+            "z": 0.5
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.10074571655586273,
+          "y": 0.5601618962673988,
+          "z": 0.5220608224046446
+        },
+        "Kd": {
+          "x": 0.10074571655586273,
+          "y": 0.5601618962673988,
+          "z": 0.5220608224046446
+        },
+        "Ks": {
+          "x": 0.21150416326484933,
+          "y": 0.21150416326484933,
+          "z": 0.21150416326484933
+        },
+        "reflectionIntensity": 0.2471688126206052,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.007295091018745925,
+        "refractionIndex": 1.2712007565749572
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.5,
+            "y": -0.5,
+            "z": 0.5
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.4946821893049609,
+          "y": 0.5320356311741867,
+          "z": 0.02552573999873531
+        },
+        "Kd": {
+          "x": 0.4946821893049609,
+          "y": 0.5320356311741867,
+          "z": 0.02552573999873531
+        },
+        "Ks": {
+          "x": 0.4611718757437123,
+          "y": 0.4611718757437123,
+          "z": 0.4611718757437123
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.5,
+            "y": -0.5,
+            "z": 0.5
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.8400447140481763,
+          "y": 0.73726913338163,
+          "z": 0.7374867639864492
+        },
+        "Kd": {
+          "x": 0.8400447140481763,
+          "y": 0.73726913338163,
+          "z": 0.7374867639864492
+        },
+        "Ks": {
+          "x": 0.4442219801620266,
+          "y": 0.4442219801620266,
+          "z": 0.4442219801620266
+        },
+        "reflectionIntensity": 0.13316041391116384,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.25,
+            "y": -0.25,
+            "z": 0.25
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.5169920170226311,
+          "y": 0.6046058872722553,
+          "z": 0.0719488756961113
+        },
+        "Kd": {
+          "x": 0.5169920170226311,
+          "y": 0.6046058872722553,
+          "z": 0.0719488756961113
+        },
+        "Ks": {
+          "x": 0.4359335178802365,
+          "y": 0.4359335178802365,
+          "z": 0.4359335178802365
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.6000000000000001,
+            "y": 0.6000000000000001,
+            "z": 0.6000000000000001
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.910734042593198,
+          "y": 0.2332083068864902,
+          "z": 0.16982846280606578
+        },
+        "Kd": {
+          "x": 0.910734042593198,
+          "y": 0.2332083068864902,
+          "z": 0.16982846280606578
+        },
+        "Ks": {
+          "x": 0.04193948090810512,
+          "y": 0.04193948090810512,
+          "z": 0.04193948090810512
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.6000000000000001,
+            "y": 0.6000000000000001,
+            "z": 0.6000000000000001
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.9721522900173747,
+          "y": 0.22222432520059943,
+          "z": 0.7772327673565416
+        },
+        "Kd": {
+          "x": 0.9721522900173747,
+          "y": 0.22222432520059943,
+          "z": 0.7772327673565416
+        },
+        "Ks": {
+          "x": 0.3546679139658144,
+          "y": 0.3546679139658144,
+          "z": 0.3546679139658144
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.21698914605093356,
+        "refractionIndex": 1.6788317959168642
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.6000000000000001,
+            "y": -0.6000000000000001,
+            "z": 0.6000000000000001
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.5170799833899052,
+          "y": 0.6160742521011431,
+          "z": 0.5391023884718527
+        },
+        "Kd": {
+          "x": 0.5170799833899052,
+          "y": 0.6160742521011431,
+          "z": 0.5391023884718527
+        },
+        "Ks": {
+          "x": 0.15665399598716795,
+          "y": 0.15665399598716795,
+          "z": 0.15665399598716795
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.6000000000000001,
+            "y": -0.6000000000000001,
+            "z": 0.6000000000000001
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.854468670020867,
+          "y": 0.2296628350197616,
+          "z": 0.8841125488228924
+        },
+        "Kd": {
+          "x": 0.854468670020867,
+          "y": 0.2296628350197616,
+          "z": 0.8841125488228924
+        },
+        "Ks": {
+          "x": 0.09333259426550933,
+          "y": 0.09333259426550933,
+          "z": 0.09333259426550933
+        },
+        "reflectionIntensity": 0.19411871485358156,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.30000000000000004,
+            "y": -0.30000000000000004,
+            "z": 0.30000000000000004
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.0021617310186978766,
+          "y": 0.6717934999515767,
+          "z": 0.9154990237195658
+        },
+        "Kd": {
+          "x": 0.0021617310186978766,
+          "y": 0.6717934999515767,
+          "z": 0.9154990237195658
+        },
+        "Ks": {
+          "x": 0.16246918991558917,
+          "y": 0.16246918991558917,
+          "z": 0.16246918991558917
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.7000000000000001,
+            "y": 0.7000000000000001,
+            "z": 0.7000000000000001
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.6346475003952792,
+          "y": 0.5225232440603446,
+          "z": 0.35624399299658804
+        },
+        "Kd": {
+          "x": 0.6346475003952792,
+          "y": 0.5225232440603446,
+          "z": 0.35624399299658804
+        },
+        "Ks": {
+          "x": 0.4445280052811029,
+          "y": 0.4445280052811029,
+          "z": 0.4445280052811029
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.3086437639716726,
+        "refractionIndex": 1.7530374043561432
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.7000000000000001,
+            "y": 0.7000000000000001,
+            "z": 0.7000000000000001
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.1,
+          "y": 0.1,
+          "z": 0.1
+        },
+        "Kd": {
+          "x": 0.1,
+          "y": 0.1,
+          "z": 0.1
+        },
+        "Ks": {
+          "x": 0.1,
+          "y": 0.1,
+          "z": 0.1
+        },
+        "reflectionIntensity": 0.8,
+        "shininess": 7,
+        "isTransparent": true,
+        "refractionIntensity": 0.2,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.7000000000000001,
+            "y": -0.7000000000000001,
+            "z": 0.7000000000000001
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.5827063472178917,
+          "y": 0.990664767478572,
+          "z": 0.5675833975042991
+        },
+        "Kd": {
+          "x": 0.5827063472178917,
+          "y": 0.990664767478572,
+          "z": 0.5675833975042991
+        },
+        "Ks": {
+          "x": 0.10114473480872466,
+          "y": 0.10114473480872466,
+          "z": 0.10114473480872466
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.7000000000000001,
+            "y": -0.7000000000000001,
+            "z": 0.7000000000000001
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.16340324009437235,
+          "y": 0.5999686477052716,
+          "z": 0.45528372153040797
+        },
+        "Kd": {
+          "x": 0.16340324009437235,
+          "y": 0.5999686477052716,
+          "z": 0.45528372153040797
+        },
+        "Ks": {
+          "x": 0.2100735449587191,
+          "y": 0.2100735449587191,
+          "z": 0.2100735449587191
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.3146426460500602,
+        "refractionIndex": 1.0293175992742742
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.35000000000000003,
+            "y": -0.35000000000000003,
+            "z": 0.35000000000000003
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.1,
+          "y": 0.1,
+          "z": 0.1
+        },
+        "Kd": {
+          "x": 0.1,
+          "y": 0.1,
+          "z": 0.1
+        },
+        "Ks": {
+          "x": 0.1,
+          "y": 0.1,
+          "z": 0.1
+        },
+        "reflectionIntensity": 0.8,
+        "shininess": 4,
+        "isTransparent": true,
+        "refractionIntensity": 0.2,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.8,
+            "y": 0.8,
+            "z": 0.8
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.4326345903181762,
+          "y": 0.2647115010152743,
+          "z": 0.453795643202901
+        },
+        "Kd": {
+          "x": 0.4326345903181762,
+          "y": 0.2647115010152743,
+          "z": 0.453795643202901
+        },
+        "Ks": {
+          "x": 0.058969745627783066,
+          "y": 0.058969745627783066,
+          "z": 0.058969745627783066
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.8,
+            "y": 0.8,
+            "z": 0.8
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.3308427767367842,
+          "y": 0.8308684640739742,
+          "z": 0.7224163691471976
+        },
+        "Kd": {
+          "x": 0.3308427767367842,
+          "y": 0.8308684640739742,
+          "z": 0.7224163691471976
+        },
+        "Ks": {
+          "x": 0.3143640235193222,
+          "y": 0.3143640235193222,
+          "z": 0.3143640235193222
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.0366942239475494,
+        "refractionIndex": 1.5792828480691368
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.8,
+            "y": -0.8,
+            "z": 0.8
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.7222968418661324,
+          "y": 0.4694153012569928,
+          "z": 0.930830023721046
+        },
+        "Kd": {
+          "x": 0.7222968418661324,
+          "y": 0.4694153012569928,
+          "z": 0.930830023721046
+        },
+        "Ks": {
+          "x": 0.14632666420512547,
+          "y": 0.14632666420512547,
+          "z": 0.14632666420512547
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.25096996605315003,
+        "refractionIndex": 1.7030374248796702
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.8,
+            "y": -0.8,
+            "z": 0.8
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.35477819467977245,
+          "y": 0.3818014183735483,
+          "z": 0.9749509400190709
+        },
+        "Kd": {
+          "x": 0.35477819467977245,
+          "y": 0.3818014183735483,
+          "z": 0.9749509400190709
+        },
+        "Ks": {
+          "x": 0.046395477283913134,
+          "y": 0.046395477283913134,
+          "z": 0.046395477283913134
+        },
+        "reflectionIntensity": 0.18907125148773485,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.4,
+            "y": -0.4,
+            "z": 0.4
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.5197590042148702,
+          "y": 0.559663470386454,
+          "z": 0.2721142991811413
+        },
+        "Kd": {
+          "x": 0.5197590042148702,
+          "y": 0.559663470386454,
+          "z": 0.2721142991811413
+        },
+        "Ks": {
+          "x": 0.1668844288495983,
+          "y": 0.1668844288495983,
+          "z": 0.1668844288495983
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": false,
+        "refractionIntensity": 0.3,
+        "refractionIndex": 1.5
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.9,
+            "y": 0.9,
+            "z": 0.9
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.396285012039565,
+          "y": 0.7671056857972162,
+          "z": 0.2802606497959049
+        },
+        "Kd": {
+          "x": 0.396285012039565,
+          "y": 0.7671056857972162,
+          "z": 0.2802606497959049
+        },
+        "Ks": {
+          "x": 0.11807310647134461,
+          "y": 0.11807310647134461,
+          "z": 0.11807310647134461
+        },
+        "reflectionIntensity": 0.2933791611155477,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.3255422336771823,
+        "refractionIndex": 1.0294064555129796
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.9,
+            "y": 0.9,
+            "z": 0.9
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.9853702231468543,
+          "y": 0.6507158323865239,
+          "z": 0.9686427319496586
+        },
+        "Kd": {
+          "x": 0.9853702231468543,
+          "y": 0.6507158323865239,
+          "z": 0.9686427319496586
+        },
+        "Ks": {
+          "x": 0.0734929381244786,
+          "y": 0.0734929381244786,
+          "z": 0.0734929381244786
+        },
+        "reflectionIntensity": 0.19475707842683565,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.47042013781574255,
+        "refractionIndex": 1.0878592347874751
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": 0.9,
+            "y": -0.9,
+            "z": 0.9
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.4728166061158806,
+          "y": 0.5936707722230851,
+          "z": 0.858067142488872
+        },
+        "Kd": {
+          "x": 0.4728166061158806,
+          "y": 0.5936707722230851,
+          "z": 0.858067142488872
+        },
+        "Ks": {
+          "x": 0.0834087986905474,
+          "y": 0.0834087986905474,
+          "z": 0.0834087986905474
+        },
+        "reflectionIntensity": 0.029141517532769445,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.40421460638556356,
+        "refractionIndex": 1.4679552591155858
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.9,
+            "y": -0.9,
+            "z": 0.9
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.9047871178443301,
+          "y": 0.15560082153257848,
+          "z": 0.022449279128424093
+        },
+        "Kd": {
+          "x": 0.9047871178443301,
+          "y": 0.15560082153257848,
+          "z": 0.022449279128424093
+        },
+        "Ks": {
+          "x": 0.3229516155240288,
+          "y": 0.3229516155240288,
+          "z": 0.3229516155240288
+        },
+        "reflectionIntensity": 0.0,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.3032395699051343,
+        "refractionIndex": 1.3345232168180092
+      }
+    },
+    {
+      "shape": {
+        "CLASSNAME": "edu.cg.scene.objects.Sphere",
+        "DATA": {
+          "center": {
+            "x": -0.45,
+            "y": -0.45,
+            "z": 0.45
+          },
+          "radius": 0.1
+        }
+      },
+      "material": {
+        "Ka": {
+          "x": 0.3452763140843538,
+          "y": 0.5452397250895986,
+          "z": 0.2459972899971593
+        },
+        "Kd": {
+          "x": 0.3452763140843538,
+          "y": 0.5452397250895986,
+          "z": 0.2459972899971593
+        },
+        "Ks": {
+          "x": 0.49822166386138256,
+          "y": 0.49822166386138256,
+          "z": 0.49822166386138256
+        },
+        "reflectionIntensity": 0.06079287134485273,
+        "shininess": 10,
+        "isTransparent": true,
+        "refractionIntensity": 0.049049830330334054,
+        "refractionIndex": 1.097115787585997
+      }
+    }
+  ]
+}
