@@ -5,7 +5,6 @@ import edu.cg.algebra.Hit;
 import edu.cg.algebra.Point;
 import edu.cg.algebra.Ray;
 import edu.cg.algebra.Vec;
-import edu.cg.scene.lightSources.Light;
 import edu.cg.scene.objects.Surface;
 
 public class PointLight
@@ -61,9 +60,12 @@ public class PointLight
 
 	@Override
 	public Vec intensity(Point hittingPoint, Ray rayToLight) {
-		double distance = hittingPoint.dist(this.position);
-		double decay = this.kc + (this.kl + this.kq * distance) * distance;
+		double decay = calcDecay(hittingPoint.dist(this.position));
 		return this.intensity.mult(1 / decay);
+	}
+
+	private double calcDecay (double distance) {
+		return this.kc + distance * (this.kl + this.kq * distance);
 	}
 }
 

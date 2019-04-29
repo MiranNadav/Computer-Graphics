@@ -50,23 +50,37 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PointLight.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="PointLight.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/edu/cg/scene/lightSources/PointLight.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="514">
-              <caret line="64" column="74" selection-start-line="64" selection-start-column="74" selection-end-line="64" selection-end-column="74" />
+            <state relative-caret-position="195">
+              <caret line="57" column="75" selection-start-line="57" selection-start-column="75" selection-end-line="57" selection-end-column="75" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1779#1780#0" expanded="true" />
+                <element signature="e#1836#1837#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Spotlight.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Spotlight.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/cg/scene/lightSources/Spotlight.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="42" column="66" lean-forward="true" selection-start-line="42" selection-start-column="66" selection-end-line="42" selection-end-column="66" />
+            <state relative-caret-position="120">
+              <caret line="8" column="36" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Ops.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/edu/cg/algebra/Ops.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="242">
+              <caret line="103" column="8" lean-forward="true" selection-start-line="103" selection-start-column="8" selection-end-line="103" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -83,21 +97,8 @@
       <file leaf-file-name="Surface.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/cg/scene/objects/Surface.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="31" selection-start-line="31" selection-end-line="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Vec.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/cg/algebra/Vec.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" selection-start-line="11" selection-end-line="11" />
-              <folding>
-                <element signature="e#596#597#0" expanded="true" />
-                <element signature="e#629#630#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="375">
+              <caret line="30" column="44" selection-start-line="30" selection-start-column="44" selection-end-line="30" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -139,7 +140,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>TODO</find>
       <find>Can't</find>
       <find>axisalign</find>
       <find>axisalignedrec</find>
@@ -154,6 +154,8 @@
       <find>Create</find>
       <find>decom</find>
       <find>Decomp</find>
+      <find>TODO</find>
+      <find>Deco</find>
     </findStrings>
     <replaceStrings>
       <replace>AxisAlignedBox</replace>
@@ -163,20 +165,20 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/edu/cg/menu/components/ScenesPicker.java" />
-        <option value="$PROJECT_DIR$/src/edu/cg/scene/objects/Surface.java" />
         <option value="$PROJECT_DIR$/scenes/scene2.json" />
         <option value="$PROJECT_DIR$/src/edu/cg/scene/lightSources/Light.java" />
         <option value="$PROJECT_DIR$/src/edu/cg/scene/objects/Plain.java" />
         <option value="$PROJECT_DIR$/src/edu/cg/scene/lightSources/DirectionalLight.java" />
-        <option value="$PROJECT_DIR$/src/edu/cg/scene/lightSources/PointLight.java" />
         <option value="$PROJECT_DIR$/scenes/scene3.json" />
         <option value="$PROJECT_DIR$/scenes/scene4.json" />
         <option value="$PROJECT_DIR$/src/edu/cg/scene/objects/AxisAlignedBox.java" />
         <option value="$PROJECT_DIR$/src/edu/cg/scene/camera/PinholeCamera.java" />
         <option value="$PROJECT_DIR$/src/edu/cg/Scenes.java" />
         <option value="$PROJECT_DIR$/src/edu/cg/scene/objects/Sphere.java" />
-        <option value="$PROJECT_DIR$/src/edu/cg/scene/lightSources/Spotlight.java" />
         <option value="$PROJECT_DIR$/src/edu/cg/scene/Scene.java" />
+        <option value="$PROJECT_DIR$/src/edu/cg/scene/lightSources/Spotlight.java" />
+        <option value="$PROJECT_DIR$/src/edu/cg/scene/objects/Surface.java" />
+        <option value="$PROJECT_DIR$/src/edu/cg/scene/lightSources/PointLight.java" />
       </list>
     </option>
   </component>
@@ -369,12 +371,12 @@
       <option name="presentableId" value="Default" />
       <updated>1556039639287</updated>
       <workItem from="1556039643025" duration="1438000" />
-      <workItem from="1556282148439" duration="32462000" />
+      <workItem from="1556282148439" duration="33151000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33900000" />
+    <option name="totallyTimeSpent" value="34589000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -487,6 +489,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="720">
           <caret line="55" column="21" selection-start-line="55" selection-start-column="21" selection-end-line="55" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1779#1780#0" expanded="true" />
+            <element signature="e#1836#1837#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -541,6 +548,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1779#1780#0" expanded="true" />
+            <element signature="e#1836#1837#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -635,13 +647,6 @@
             <element signature="e#797#798#0" expanded="true" />
             <element signature="e#828#829#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cg/algebra/Ops.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="31" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
         </state>
       </provider>
     </entry>
@@ -756,20 +761,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cg/scene/lightSources/PointLight.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="514">
-          <caret line="64" column="74" selection-start-line="64" selection-start-column="74" selection-end-line="64" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cg/scene/objects/Surface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/cg/menu/components/ScenesCreator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
@@ -811,12 +802,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cg/algebra/Ops.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="103" column="8" lean-forward="true" selection-start-line="103" selection-start-column="8" selection-end-line="103" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cg/scene/objects/Surface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="30" column="44" selection-start-line="30" selection-start-column="44" selection-end-line="30" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/cg/scene/lightSources/Spotlight.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="42" column="66" lean-forward="true" selection-start-line="42" selection-start-column="66" selection-end-line="42" selection-end-column="66" />
+        <state relative-caret-position="120">
+          <caret line="8" column="36" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cg/scene/lightSources/PointLight.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="57" column="75" selection-start-line="57" selection-start-column="75" selection-end-line="57" selection-end-column="75" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1779#1780#0" expanded="true" />
+            <element signature="e#1836#1837#0" expanded="true" />
           </folding>
         </state>
       </provider>
