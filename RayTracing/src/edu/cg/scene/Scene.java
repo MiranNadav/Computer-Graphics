@@ -193,20 +193,12 @@ public class Scene {
 
         for (Light light : this.lightSources) {
             rayToLight = light.rayToLight(hittingPoint);
-            if (!this.isOccluded(light, rayToLight)){
+            if (!this.isLightOccluded(light, rayToLight)){
                 temporaryColor = this.colorDiffuse(minimalHit, rayToLight);
                 temporaryColor = temporaryColor.add(this.colorSpecular(minimalHit, rayToLight, ray));
                 intensity = light.intensity(hittingPoint, rayToLight);
                 color = color.add(temporaryColor.mult(intensity));
             }
-        }
-
-        // Handle Reflections
-        if (this.renderReflections) {
-            Vec reflectDirection = Ops.reflect(ray.direction(), minimalHit.getNormalToSurface());
-            Vec reflectIntensity = new Vec(surface.reflectionIntensity());
-            Vec reflectColor = this.calcColor(new Ray(hittingPoint, reflectDirection), recursionLevel + 1).mult(reflectIntensity);
-            color = color.add(reflectColor);
         }
 
         // Handle Refractions
@@ -221,6 +213,15 @@ public class Scene {
                 color = color.add(refractColor);
             }
         }
+
+        // Handle Reflections
+        if (this.renderReflections) {
+            Vec reflectDirection = Ops.reflect(ray.direction(), minimalHit.getNormalToSurface());
+            Vec reflectIntensity = new Vec(surface.reflectionIntensity());
+            Vec reflectColor = this.calcColor(new Ray(hittingPoint, reflectDirection), recursionLevel + 1).mult(reflectIntensity);
+            color = color.add(reflectColor);
+        }
+
         return color;
     }
 
@@ -246,7 +247,7 @@ public class Scene {
         }
     }
 
-    private boolean isOccluded(Light light, Ray rayToLight) {
+    private boolean isLightOccluded(Light light, Ray rayToLight) {
         for (Surface surface : this.surfaces) {
             if (light.isOccludedBy(surface, rayToLight)){
                 return true;
@@ -259,13 +260,10 @@ public class Scene {
         Hit minimalHit = null;
         for (Surface surface : this.surfaces) {
             Hit newHit = surface.intersect(ray);
-            if (minimalHit != null && (newHit == null || newHit.compareTo(minimalHit) >= 0)) {
-                continue;
+            if (minimalHit == null  || (newHit != null && newHit.compareTo(minimalHit) < 0)){
+                minimalHit = newHit;
             }
-            minimalHit = newHit;
         }
         return minimalHit;
     }
-
-
 }
