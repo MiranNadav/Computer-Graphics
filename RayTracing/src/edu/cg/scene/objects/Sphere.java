@@ -25,26 +25,17 @@ public class Sphere
     public Hit intersect(Ray ray) {
         double b = ray.direction().mult(2.0).dot(ray.source().sub(this.center));
         double discriminant = Math.sqrt(Math.pow(b, 2) - 4.0 * (this.distanceFromCenter(ray.source())));
+        if(!Double.isNaN(discriminant)) {
+            double t1 = (-b - discriminant) / 2.0;
+            double t2 = (-b + discriminant) / 2.0;
 
-        if (Double.isNaN(discriminant)) {
-            return null;
+            Vec normal = this.normal(ray.add(t1));
+
+            if (t1 < Ops.infinity && t2 > Ops.epsilon) {
+                return new Hit(t1, normal);
+            }
         }
-
-        double t1 = (-b - discriminant) / 2.0;
-        double t2 = (-b + discriminant) / 2.0;
-
-        if (t2 < Ops.epsilon) {
-            return null;
-        }
-
-        double minT = t1;
-        Vec normal = this.normal(ray.add(t1));
-
-        if (minT > Ops.infinity) {
-            return null;
-        }
-
-        return new Hit(minT, normal);
+        return null;
     }
 
     /**

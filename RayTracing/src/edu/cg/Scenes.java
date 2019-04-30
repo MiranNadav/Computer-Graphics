@@ -188,8 +188,6 @@ public class Scenes {
             scene.addSurface(sphereSurface_4);
         }
 
-        Light dirLight = new DirectionalLight().initDirection(new Vec(-0.5, -0.5, -1.0))
-                .initIntensity(new Vec(0.5));
         PointLight pointLight1 = new PointLight().initPosition(new Point(6.0, 4.0, 6.0)).initIntensity(new Vec(1.0));
         PointLight pointLight2 = new PointLight().initPosition(new Point(4.0, 12.0, 6.0)).initIntensity(new Vec(1.0));
         PointLight pointLight3 = new PointLight().initPosition(new Point(-6.0, -20.0, 6.0)).initIntensity(new Vec(1.0));
@@ -198,7 +196,6 @@ public class Scenes {
         return scene.initAmbient(new Vec(1.0))
                 .initCamera(new Point(0.0, 0.0, 2.0), new Vec(0.0, 0.0, -1.0),
                         new Vec(1.0, 1.0, 0.0), 1.0)
-//                .addLightSource(dirLight)
                 .addLightSource(pointLight1)
                 .addLightSource(pointLight2)
                 .addLightSource(pointLight3)
