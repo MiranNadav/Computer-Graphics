@@ -148,19 +148,20 @@ public class Scene {
 
     private Future<Color> calcColor(int x, int y) {
         return this.executor.submit(() -> {
-            Point leftUpPoint = this.camera.transform(x, y);
-            Point rightDownPoint = this.camera.transform(x + 1, y + 1);
+            Point topLeftPoint = this.camera.transform(x, y);
+            Point buttomRightPoint = this.camera.transform(x + 1, y + 1);
             Vec currentColor = new Vec();
             for (int i = 0; i < this.antiAliasingFactor; i++) {
                 for (int j = 0; j < this.antiAliasingFactor; j++) {
                     Point leftUpWeight = calcLeftUpWeight(j,i);
                     Point rightDownWeight = calcRightDownWeight(j,i);
-                    Point pointInSurface = Ops.add(rightDownPoint.mult(rightDownWeight), leftUpPoint.mult(leftUpWeight));
+                    Point pointInSurface = Ops.add(buttomRightPoint.mult(rightDownWeight), topLeftPoint.mult(leftUpWeight));
                     Ray currentRay = new Ray(this.camera.getCameraPosition(), pointInSurface);
                     currentColor = currentColor.add(this.calcColor(currentRay, 0));
                 }
             }
-            return currentColor.mult(1 / (Math.pow(this.antiAliasingFactor,2))).toColor();
+            Color colorFound = currentColor.mult(1 / (Math.pow(this.antiAliasingFactor,2))).toColor();
+            return colorFound;
         });
     }
 
