@@ -198,7 +198,7 @@ public class Scenes {
         return scene.initAmbient(new Vec(1.0))
                 .initCamera(new Point(0.0, 0.0, 2.0), new Vec(0.0, 0.0, -1.0),
                         new Vec(1.0, 1.0, 0.0), 1.0)
-                .addLightSource(dirLight)
+//                .addLightSource(dirLight)
                 .addLightSource(pointLight1)
                 .addLightSource(pointLight2)
                 .addLightSource(pointLight3)
