@@ -43,4 +43,6 @@ public class Back implements IRenderable {
 
 	}
 
+	@Override
+	public void destroy(GL2 gl){}
 }

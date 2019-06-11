@@ -7,9 +7,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.lang.reflect.Field;
 
 import javax.swing.JFrame;
 
+import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLJPanel;
@@ -28,6 +30,8 @@ public class Main {
 	 * @param args No arguments
 	 */
 	public static void main(String[] args) {
+		Field[] fields = GL2.class.getFields();
+		GL2.class.getSuperclass();
 		frame = new JFrame();
 
 		// General OpenGL init
