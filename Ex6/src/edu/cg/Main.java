@@ -29,9 +29,8 @@ public class Main {
 	 * 
 	 * @param args No arguments
 	 */
-	public static void main(String[] args) {
-		Field[] fields = GL2.class.getFields();
-		GL2.class.getSuperclass();
+	public static void main(String[] args) throws Exception {
+		handleClass(GL2.class);
 		frame = new JFrame();
 
 		// General OpenGL init
@@ -115,5 +114,28 @@ public class Main {
 		canvas.requestFocus();
 		frame.setVisible(true);
 		canvas.repaint();
+	}
+
+	private static void handleClass (Class classic) throws Exception{
+		Class[] interfaces = classic.getInterfaces();
+		for (int i = 0; i < interfaces.length; i++) {
+			handleClass(interfaces[i]);
+		}
+		Field[] fields = GL2.class.getFields();
+		System.out.println("--------------------------------\n");
+		System.out.println(classic.getName());
+		printFields(fields);
+	}
+	private static void printFields(Field [] fields) throws Exception{
+		for (int i = 0; i < fields.length; i++) {
+			Field field = fields[i];
+			try {
+				System.out.println(field.getName() + " = " + field.getInt(null));
+			} catch (Exception e){
+
+			}
+		}
+		System.out.println("--------------------------------\n");
+
 	}
 }

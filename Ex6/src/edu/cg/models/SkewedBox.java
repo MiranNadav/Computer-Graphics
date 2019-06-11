@@ -1,8 +1,21 @@
 package edu.cg.models;
 
+import java.io.File;
+
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.util.texture.Texture;
+import com.jogamp.opengl.util.texture.TextureIO;
+
+import edu.cg.algebra.Vec;
 
 public class SkewedBox implements IRenderable {
+    private Texture textureBox = null;
+    //       * Note you may want to enable textures here to render
+    //         the wooden boxes.
+    private boolean shouldUseTexture = false;
+
+    // TODO: Add you implementation from previous exercise.
+
     private double length, height1, height2, depth1, depth2;
 
     public SkewedBox() {
@@ -21,14 +34,36 @@ public class SkewedBox implements IRenderable {
         this.depth2 = d2;
     }
 
+    public SkewedBox(double length, boolean useTexture) {
+        this.length = length;
+        this.depth1 = length;
+        this.depth2 = length;
+        this.height1 = length;
+        this.height2 = length;
+        this.shouldUseTexture = useTexture;
+    }
+
     @Override
     public void render(GL2 gl) {
+        if (this.shouldUseTexture) {
+            assert (this.textureBox != null && gl != null);
+            this.initTextureProperties(gl);
+        }
         renderFrontEdge(gl);
         renderBackEdge(gl);
         renderTopEdge(gl);
         renderButtomEdge(gl);
         renderLeftEdge(gl);
         renderRightEdge(gl);
+    }
+
+    private void initTextureProperties(GL2 gl) {
+        gl.glEnable(3553);
+        this.textureBox.bind(gl);
+        gl.glTexEnvi(8960, 8704, 8448);
+        gl.glTexParameteri(3553, 10241, 9987);
+        gl.glTexParameteri(3553, 10240, 9729);
+        gl.glTexParameteri(3553, 33083, 1);
     }
 
     private void renderRightEdge(GL2 gl) {
@@ -93,6 +128,14 @@ public class SkewedBox implements IRenderable {
 
     @Override
     public void init(GL2 gl) {
+        if (this.shouldUseTexture) {
+            try {
+                this.textureBox = TextureIO.newTexture(new File("Textures/WoodBoxTexture.jpg"), true);
+            }
+            catch (Exception e) {
+                System.err.print("Unable to read texture : " + e.getMessage());
+            }
+        }
     }
 
     @Override
