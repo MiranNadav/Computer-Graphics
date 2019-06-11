@@ -24,6 +24,9 @@ public class TrackSegment implements IRenderable {
 	// TODO Add additional fields, for example:
 	//		- Add wooden box model (you will only need one object which can be rendered many times)
 	//      - Add grass and asphalt textures.
+	private SkewedBox box = new SkewedBox(1.5, true);
+	private Texture texRoad;
+	private Texture texGrass;
 
 	public void setDifficulty(double difficulty) {
 		// TODO: Set the difficulty of the track segment. Here you decide what are the boxes locations.
@@ -70,16 +73,86 @@ public class TrackSegment implements IRenderable {
 
 	@Override
 	public void render(GL2 gl) {
-		// TODO: Render the track segment
+		this.renderBoxes(gl);
+		this.renderAsphalt(gl);
+		this.renderGrass(gl);
+	}
+
+	private void renderBoxes(GL2 gl) {
+		Materials.setWoodenBoxMaterial(gl);
+		for (Point p : this.boxesLocations) {
+			gl.glPushMatrix();
+			gl.glTranslated(p.x, 0.0, p.z);
+			this.box.render(gl);
+			gl.glPopMatrix();
+		}
+	}
+
+	private void renderAsphalt(GL2 gl) {
+		Materials.setAsphaltMaterial(gl);
+		gl.glPushMatrix();
+		this.renderQuadraticTexture(gl, this.texRoad, 20.0, 10.0, 6, 500.0);
+		gl.glPopMatrix();
+	}
+
+	private void renderGrass(GL2 gl) {
+		Materials.setGreenMaterial(gl);
+		double dx = 15.0;
+		gl.glTranslated(dx, 0.0, 0.0);
+		this.renderQuadraticTexture(gl, this.texGrass, 10.0, 10.0, 2, 500.0);
+		gl.glTranslated(-2.0 * dx, 0.0, 0.0);
+		this.renderQuadraticTexture(gl, this.texGrass, 10.0, 10.0, 2, 500.0);
+		gl.glPopMatrix();
+	}
+
+	private void renderQuadraticTexture(GL2 gl, Texture tex, double quadWidth, double quadDepth, int split, double totalDepth) {
+		gl.glEnable(GL2.GL_TEXTURE_2D);
+		tex.bind(gl);
+		gl.glTexEnvi(8960, 8704, 8448);
+		gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, 9987);
+		gl.glTexParameteri(GL2.GL_TEXTURE_2D, 10240, 9729);
+		gl.glTexParameteri(GL2.GL_TEXTURE_2D, 33083, 1);
+		gl.glColor3d(1.0, 0.0, 0.0);
+		GLU glu = new GLU();
+		GLUquadric quad = glu.gluNewQuadric();
+		gl.glColor3d(1.0, 0.0, 0.0);
+		gl.glNormal3d(0.0, 1.0, 0.0);
+		double d = 1.0 / (double)split;
+		double dz = quadDepth / (double)split;
+		double dx = quadWidth / (double)split;
+		for (double tz = 0.0; tz < totalDepth; tz += quadDepth) {
+			for (double i = 0.0; i < (double)split; i += 1.0) {
+				gl.glBegin(5);
+				for (double j = 0.0; j <= (double)split; j += 1.0) {
+					gl.glTexCoord2d(j * d, (i + 1.0) * d);
+					gl.glVertex3d(-quadWidth / 2.0 + j * dx, 0.0, -tz - (i + 1.0) * dz);
+					gl.glTexCoord2d(j * d, i * d);
+					gl.glVertex3d(-quadWidth / 2.0 + j * dx, 0.0, -tz - i * dz);
+				}
+				gl.glEnd();
+			}
+		}
+		glu.gluDeleteQuadric(quad);
+		gl.glDisable(GL2.GL_TEXTURE_2D);
 	}
 
 	@Override
 	public void init(GL2 gl) {
-		// TODO: Initialize textures.
+		this.box.init(gl);
+		try {
+			this.texRoad = TextureIO.newTexture(new File("Textures/RoadTexture.jpg"), true);
+			this.texGrass = TextureIO.newTexture(new File("Textures/GrassTexture.jpg"), true);
+		}
+		catch (Exception e) {
+			System.err.print("Unable to read texture : " + e.getMessage());
+		}
 	}
 
+	@Override
 	public void destroy(GL2 gl) {
-		// TODO: destroy textures.
+		this.texRoad.destroy(gl);
+		this.texGrass.destroy(gl);
+		this.box.destroy(gl);
 	}
 
 }
