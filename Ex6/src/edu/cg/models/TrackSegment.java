@@ -106,31 +106,34 @@ public class TrackSegment implements IRenderable {
 	}
 
 	private void renderQuadraticTexture(GL2 gl, Texture tex, double quadWidth, double quadDepth, int split, double totalDepth) {
+		double splitInDouble = (double)split;
 		gl.glEnable(GL2.GL_TEXTURE_2D);
 		tex.bind(gl);
-		gl.glTexEnvi(8960, 8704, 8448);
-		gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, 9987);
-		gl.glTexParameteri(GL2.GL_TEXTURE_2D, 10240, 9729);
-		gl.glTexParameteri(GL2.GL_TEXTURE_2D, 33083, 1);
+		gl.glTexEnvi(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_MODULATE);
+		gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR_MIPMAP_LINEAR);
+		gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
+		gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAX_LOD, 1);
 		gl.glColor3d(1.0, 0.0, 0.0);
 		GLU glu = new GLU();
 		GLUquadric quad = glu.gluNewQuadric();
 		gl.glColor3d(1.0, 0.0, 0.0);
 		gl.glNormal3d(0.0, 1.0, 0.0);
-		double d = 1.0 / (double)split;
-		double dz = quadDepth / (double)split;
-		double dx = quadWidth / (double)split;
-		for (double tz = 0.0; tz < totalDepth; tz += quadDepth) {
-			for (double i = 0.0; i < (double)split; i += 1.0) {
+		double d = 1.0 / splitInDouble;
+		double dz = quadDepth / splitInDouble;
+		double dx = quadWidth / splitInDouble;
+		double tz = 0;
+		while (tz < totalDepth) {
+			for (double i = 0.0; i < splitInDouble; i++) {
 				gl.glBegin(5);
-				for (double j = 0.0; j <= (double)split; j += 1.0) {
-					gl.glTexCoord2d(j * d, (i + 1.0) * d);
-					gl.glVertex3d(-quadWidth / 2.0 + j * dx, 0.0, -tz - (i + 1.0) * dz);
-					gl.glTexCoord2d(j * d, i * d);
-					gl.glVertex3d(-quadWidth / 2.0 + j * dx, 0.0, -tz - i * dz);
+				for (double j = 0.0; j <= splitInDouble; j++) {
+					gl.glTexCoord2d(d * j, d * (i + 1));
+					gl.glVertex3d(dx * j - quadWidth / 2.0 , 0.0, -(tz + (i + 1) * dz));
+					gl.glTexCoord2d(d * j, d * i);
+					gl.glVertex3d(dx * j - quadWidth / 2.0, 0.0, -(tz + i * dz));
 				}
 				gl.glEnd();
 			}
+			tz += quadDepth;
 		}
 		glu.gluDeleteQuadric(quad);
 		gl.glDisable(GL2.GL_TEXTURE_2D);

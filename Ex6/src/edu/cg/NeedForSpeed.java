@@ -22,6 +22,7 @@ public class NeedForSpeed
 	private Component glPanel;
 	private boolean isModelInitialized = false;
 	private boolean isDayMode = true;
+	private int xBound = 18;
 
 	public NeedForSpeed(Component glPanel) {
 		this.glPanel = glPanel;
@@ -52,50 +53,60 @@ public class NeedForSpeed
 		this.renderTrack(gl);
 	}
 
+
 	private void updateCarCameraTranslation(GL2 gl) {
 		Vec ret = this.gameState.getNextTranslation();
 		this.carCameraTranslation = this.carCameraTranslation.add(ret);
-		double dx = Math.max((double)this.carCameraTranslation.x, -7.0);
-		this.carCameraTranslation.x = (float)Math.min(dx, 7.0);
-		if ((double)Math.abs(this.carCameraTranslation.z) >= 510.0) {
-			this.carCameraTranslation.z = -((float)((double)Math.abs(this.carCameraTranslation.z) % 500.0));
+		checkBounds(gl);
+	}
+
+	private void checkBounds(GL2 gl) {
+		// Create a new segment when the current is exceeded
+		if(Math.abs(this.carCameraTranslation.z) > 500) {
 			this.gameTrack.changeTrack(gl);
+			this.carCameraTranslation.z = - Math.abs(this.carCameraTranslation.z) % 500;
 		}
+		// Make sure the car is on track
+		if(this.carCameraTranslation.x > xBound) this.carCameraTranslation.x = xBound;
+		if(this.carCameraTranslation.x < -xBound) this.carCameraTranslation.x = -xBound;
 	}
 
 	private void setupCamera(GL2 gl) {
 		GLU glu = new GLU();
-		glu.gluLookAt(this.carCameraTranslation.x, this.carCameraTranslation.y + 1.8, this.carCameraTranslation.z + 2,
-				this.carCameraTranslation.x, this.carCameraTranslation.y + 1.5, this.carCameraTranslation.z - 5,
-				0, 0.7, -0.3);
+		glu.gluLookAt(this.carCameraTranslation.x, this.carCameraTranslation.y + 2, (double)this.carCameraTranslation.z + 2,
+				(double)this.carCameraTranslation.x, (double)this.carCameraTranslation.y + 2, (double)this.carCameraTranslation.z - 4,
+				0, 0.5, -0.4);
 	}
 
 	private void setupSun(GL2 gl, int light) {
-		float[] color = new float[]{1.0f, 1.0f, 1.0f, 1.0f};
-		Vec dir = new Vec(0.0, 1.0, 1.0).normalize();
-		float[] pos = new float[]{dir.x, dir.y, dir.z, 0.0f};
-		gl.glLightfv(light, GL2.GL_SPECULAR, color, 0);
-		gl.glLightfv(light, GL2.GL_DIFFUSE, color, 0);
+		Vec dir = new Vec(0, 1, 1).normalize();
+		float[] spec = new float[]{1f, 1f, 1f, 1f};
+		float[] ambient = new float[]{0.1f, 0.1f, 0.1f, 1.0f};
+		float[] pos = new float[]{dir.x, dir.y, dir.z, 0f};
+		gl.glLightfv(light, GL2.GL_SPECULAR, spec, 0);
 		gl.glLightfv(light, GL2.GL_POSITION, pos, 0);
-		gl.glLightfv(light, GL2.GL_AMBIENT, new float[]{0.1f, 0.1f, 0.1f, 1.0f}, 0);
+		gl.glLightfv(light, GL2.GL_AMBIENT, ambient, 0);
 		gl.glEnable(light);
 	}
 
 	private void setupMoon(GL2 gl) {
-		gl.glLightModelfv(GL2.GL_LIGHT_MODEL_AMBIENT, new float[]{0.15f, 0.15f, 0.18f, 1.0f}, 0);
-		float[] pos1 = new float[]{0.0f + this.carCameraTranslation.x, 8.0f + this.carCameraTranslation.y, -0.0f + this.carCameraTranslation.z, 1.0f};
-		this.setupSpotlight(gl, 16384, pos1);
-		float[] pos2 = new float[]{0.0f + this.carCameraTranslation.x, 8.0f + this.carCameraTranslation.y, -15.0f + this.carCameraTranslation.z, 1.0f};
-		this.setupSpotlight(gl, 16385, pos2);
+		float[] ambient = new float[]{0.1f, 0.1f, 0.1f, 1.0f} ;
+		gl.glLightModelfv(GL2.GL_LIGHT_MODEL_AMBIENT, ambient, 0);
+		float[] pos1 = new float[]{this.carCameraTranslation.x, 10f + this.carCameraTranslation.y, this.carCameraTranslation.z, 1f};
+		float[] pos2 = new float[]{this.carCameraTranslation.x, 8.0f + this.carCameraTranslation.y, -15.0f + this.carCameraTranslation.z, 1.0f};
+		this.setupSpotlight(gl, gl.GL_LIGHT0, pos1);
+		this.setupSpotlight(gl, gl.GL_LIGHT1, pos2);
+
 	}
 
 	private void setupSpotlight(GL2 gl, int light, float[] pos) {
-		float[] sunColor = new float[]{0.85f, 0.85f, 0.85f, 1.0f};
+		float[] dir = new float[]{0.0f, -1.0f, 0.0f};
+		float[] color = new float[]{0.85f, 0.85f, 0.85f, 1f};
 		gl.glLightfv(light, gl.GL_POSITION, pos, 0);
-		gl.glLightf(light, gl.GL_SPOT_CUTOFF, 75.0f);
-		gl.glLightfv(light, gl.GL_SPOT_DIRECTION, new float[]{0.0f, -1.0f, 0.0f}, 0);
-		gl.glLightfv(light, gl.GL_SPECULAR, sunColor, 0);
-		gl.glLightfv(light, gl.GL_DIFFUSE, sunColor, 0);
+		gl.glLightf(light, gl.GL_SPOT_CUTOFF, 90f);
+		gl.glLightfv(light, gl.GL_SPOT_DIRECTION, dir, 0);
+		gl.glLightfv(light, gl.GL_SPECULAR, color, 0);
+		gl.glLightfv(light, gl.GL_DIFFUSE, color, 0);
 		gl.glEnable(light);
 	}
 
@@ -117,10 +128,9 @@ public class NeedForSpeed
 	private void renderCar(GL2 gl) {
 		double carRotation = this.gameState.getCarRotation();
 		gl.glPushMatrix();
-		gl.glTranslated(0.0 + (double)this.carCameraTranslation.x, 0.15 + (double)this.carCameraTranslation.y, -6.6 + (double)this.carCameraTranslation.z);
-		gl.glRotated(-carRotation, 0.0, 1.0, 0.0);
-		gl.glRotated(90.0, 0.0, 0.1, 0.0);
-		gl.glScaled(4.0, 4.0, 4.0);
+		gl.glTranslated(this.carCameraTranslation.x, this.carCameraTranslation.y + 0.1, this.carCameraTranslation.z - 6);
+		gl.glRotated(-carRotation+90, 0.0, 1.0, 0.0);
+		gl.glScaled(3,3,3);
 		this.car.render(gl);
 		gl.glPopMatrix();
 	}
@@ -162,7 +172,7 @@ public class NeedForSpeed
 		double aspect = (double)width / (double)height;
 		gl.glMatrixMode(gl.GL_PROJECTION);
 		gl.glLoadIdentity();
-		glu.gluPerspective(57.0, aspect, 2.0, 500.0);
+		glu.gluPerspective(40, aspect, 2, 400);
 	}
 
 	public void startAnimation() {
