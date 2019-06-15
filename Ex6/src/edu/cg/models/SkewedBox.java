@@ -11,9 +11,7 @@ public class SkewedBox implements IRenderable {
     //       * Note you may want to enable textures here to render
     //         the wooden boxes.
     private boolean shouldUseTexture = false;
-
-    // TODO: Add you implementation from previous exercise.
-
+    
     private double length, height1, height2, depth1, depth2;
 
     public SkewedBox(double length, double h1, double h2, double d1, double d2) {

@@ -1,12 +1,10 @@
 package edu.cg;
 
-import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.FPSAnimator;
-import edu.cg.GameState;
 import edu.cg.algebra.Vec;
 import edu.cg.models.Car.F1Car;
 import edu.cg.models.Track;

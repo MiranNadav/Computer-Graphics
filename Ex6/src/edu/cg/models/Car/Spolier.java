@@ -7,7 +7,6 @@ import edu.cg.models.IRenderable;
 import edu.cg.models.SkewedBox;
 
 public class Spolier implements IRenderable {
-	// TODO: The spoiler is already implemented. You should understand how it is rendered.
 	private static final SkewedBox spoilerBase = new SkewedBox(Specification.S_LENGTH, Specification.S_BASE_HEIGHT, Specification.S_BASE_HEIGHT, Specification.S_BASE_DEPTH, Specification.S_BASE_DEPTH);
 	private static final SkewedBox spoilerWings = new SkewedBox(Specification.S_LENGTH, Specification.S_WINGS_HEIGHT, 4.0*Specification.S_BASE_HEIGHT, Specification.S_WINGS_DEPTH, Specification.S_WINGS_DEPTH);
 	@Override

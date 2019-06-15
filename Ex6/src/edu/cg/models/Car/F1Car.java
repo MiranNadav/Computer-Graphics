@@ -26,6 +26,7 @@ public class F1Car implements IRenderable {
 
         // render center
         gl.glPushMatrix();
+        gl.glEnable(gl.GL_COLOR_MATERIAL);
         center.render(gl);
 
         // render back
@@ -36,6 +37,7 @@ public class F1Car implements IRenderable {
         gl.glTranslated((Specification.F_FRONT_LENGTH + Specification.B_LENGTH) / 2 + Specification.C_BASE_LENGTH, 0, 0);
         front.render(gl);
 
+        gl.glDisable(gl.GL_COLOR_MATERIAL);
         gl.glPopMatrix();
     }
 

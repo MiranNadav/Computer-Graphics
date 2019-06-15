@@ -13,7 +13,6 @@ import edu.cg.algebra.Point;
 import edu.cg.models.Car.Materials;
 
 public class TrackSegment implements IRenderable {
-	// TODO: Some constants you can use
 	public final static double ASPHALT_TEXTURE_WIDTH = 20.0;
 	public final static double ASPHALT_TEXTURE_DEPTH = 10.0;
 	public final static double GRASS_TEXTURE_WIDTH = 10.0;
@@ -21,15 +20,14 @@ public class TrackSegment implements IRenderable {
 	public final static double TRACK_LENGTH = 500.0;
 	public final static double BOX_LENGTH = 1.5;
 	private LinkedList<Point> boxesLocations; // Store the boxes centroids (center points) here.
-	// TODO Add additional fields, for example:
 	//		- Add wooden box model (you will only need one object which can be rendered many times)
 	//      - Add grass and asphalt textures.
 	private SkewedBox box = new SkewedBox(1.5, true);
 	private Texture texRoad;
 	private Texture texGrass;
+	private double STRIP_DEPTH = 10;
 
 	public void setDifficulty(double difficulty) {
-		// TODO: Set the difficulty of the track segment. Here you decide what are the boxes locations.
 		//		 We provide a simple implementation. You can change it if you want. But if you do decide to use it, then it is your responsibility to understand the logic behind it.
 		//       Note: In our implementation, the difficulty is the probability of a box to appear in the scene. 
 		//             We divide the scene into rows of boxes and we sample boxes according the difficulty probability.
@@ -66,7 +64,6 @@ public class TrackSegment implements IRenderable {
 	}
 
 	public TrackSegment(double difficulty) {
-		// TODO initialize your fields here.
 		// Here by setting up the difficulty, we decide on the boxes locations.
 		setDifficulty(difficulty);
 	}
@@ -78,6 +75,7 @@ public class TrackSegment implements IRenderable {
 		this.renderGrass(gl);
 	}
 
+	// Render all boxes on the track
 	private void renderBoxes(GL2 gl) {
 		Materials.setWoodenBoxMaterial(gl);
 		for (Point p : this.boxesLocations) {
@@ -88,55 +86,65 @@ public class TrackSegment implements IRenderable {
 		}
 	}
 
+	// Render asphalt texture for the track
 	private void renderAsphalt(GL2 gl) {
 		Materials.setAsphaltMaterial(gl);
 		gl.glPushMatrix();
-		this.renderQuadraticTexture(gl, this.texRoad, 20.0, 10.0, 6, 500.0);
+		this.paintTexture(gl, this.texRoad, ASPHALT_TEXTURE_WIDTH, TRACK_LENGTH);
 		gl.glPopMatrix();
 	}
 
+	// Render grass texture for both sides of the road
 	private void renderGrass(GL2 gl) {
 		Materials.setGreenMaterial(gl);
 		double dx = 15.0;
 		gl.glTranslated(dx, 0.0, 0.0);
-		this.renderQuadraticTexture(gl, this.texGrass, 10.0, 10.0, 2, 500.0);
+		this.paintTexture(gl, this.texGrass, GRASS_TEXTURE_WIDTH, TRACK_LENGTH);
 		gl.glTranslated(-2.0 * dx, 0.0, 0.0);
-		this.renderQuadraticTexture(gl, this.texGrass, 10.0, 10.0, 2, 500.0);
+		this.paintTexture(gl, this.texGrass, GRASS_TEXTURE_WIDTH, TRACK_LENGTH);
 		gl.glPopMatrix();
 	}
 
-	private void renderQuadraticTexture(GL2 gl, Texture tex, double quadWidth, double quadDepth, int split, double totalDepth) {
-		double splitInDouble = (double)split;
-		gl.glEnable(GL2.GL_TEXTURE_2D);
-		tex.bind(gl);
-		gl.glTexEnvi(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_MODULATE);
-		gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR_MIPMAP_LINEAR);
-		gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
-		gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAX_LOD, 1);
+	/**
+	 * This method is a helper to paint a given texture, within the current track segment.
+
+	 * @param gl - necessary opengl object for rendering
+	 * @param texture - the given texture to be painted
+	 * @param texture_width - the value of the texture width
+	 * @param track_length - the track segment length
+	 */
+	private void paintTexture(GL2 gl, Texture texture, double texture_width, double track_length) {
+		gl.glEnable(gl.GL_TEXTURE_2D);
+		texture.bind(gl);
+		gl.glTexEnvi(gl.GL_TEXTURE_ENV, gl.GL_TEXTURE_ENV_MODE, gl.GL_MODULATE);
+		gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR_MIPMAP_LINEAR);
+		gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR);
+		gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAX_LOD, 1);
 		gl.glColor3d(1.0, 0.0, 0.0);
+
 		GLU glu = new GLU();
-		GLUquadric quad = glu.gluNewQuadric();
+		GLUquadric q = glu.gluNewQuadric();
 		gl.glColor3d(1.0, 0.0, 0.0);
 		gl.glNormal3d(0.0, 1.0, 0.0);
-		double d = 1.0 / splitInDouble;
-		double dz = quadDepth / splitInDouble;
-		double dx = quadWidth / splitInDouble;
-		double tz = 0;
-		while (tz < totalDepth) {
-			for (double i = 0.0; i < splitInDouble; i++) {
-				gl.glBegin(5);
-				for (double j = 0.0; j <= splitInDouble; j++) {
-					gl.glTexCoord2d(d * j, d * (i + 1));
-					gl.glVertex3d(dx * j - quadWidth / 2.0 , 0.0, -(tz + (i + 1) * dz));
-					gl.glTexCoord2d(d * j, d * i);
-					gl.glVertex3d(dx * j - quadWidth / 2.0, 0.0, -(tz + i * dz));
-				}
-				gl.glEnd();
-			}
-			tz += quadDepth;
+		gl.glTexCoord2d(0, 0);
+
+		double current_depth = 0;
+		while (current_depth < track_length){
+			gl.glBegin(gl.GL_QUADS);
+			gl.glTexCoord2d(0, 0);
+			gl.glVertex3d(-texture_width / 2, 0.0, -current_depth);
+			gl.glTexCoord2d(1, 0);
+			gl.glVertex3d(texture_width / 2, 0.0, -current_depth);
+			gl.glTexCoord2d(1, 1);
+			gl.glVertex3d(texture_width / 2, 0.0, -(current_depth + 10));
+			gl.glTexCoord2d(0, 1);
+			gl.glVertex3d(-texture_width / 2, 0.0, -(current_depth + 10));
+			gl.glEnd();
+			//increase track current depth
+			current_depth += STRIP_DEPTH;
 		}
-		glu.gluDeleteQuadric(quad);
-		gl.glDisable(GL2.GL_TEXTURE_2D);
+		glu.gluDeleteQuadric(q);
+		gl.glDisable(gl.GL_TEXTURE_2D);
 	}
 
 	@Override
@@ -157,5 +165,4 @@ public class TrackSegment implements IRenderable {
 		this.texGrass.destroy(gl);
 		this.box.destroy(gl);
 	}
-
 }
